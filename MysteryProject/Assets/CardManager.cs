@@ -103,15 +103,13 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < UserBins.Count; i++)
         {
-            CardPile cardPileToStash = UserBins[currentSelectedPileIndex].pile;
-            if(cardPileToStash.Count == 0)
+            CardPile cardPileToStash = UserBins[i].pile;
+            if(cardPileToStash.Count != 0)
             {
-                continue;
+                CardPileCriteria criteria = UserBins[i].criteria;
+                StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
+                UserBins[i].pile = new CardPile();
             }
-
-            CardPileCriteria criteria = UserBins[currentSelectedPileIndex].criteria;
-            StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
-            UserBins[currentSelectedPileIndex].pile = new CardPile();
         }
     }
 }

@@ -7,9 +7,19 @@ public class GameUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI currentCard;
     [SerializeField] TextMeshProUGUI[] piles;
 
+    [SerializeField] TextMeshProUGUI timeRemaining;
 
     void Update()
     {
+        if(GameManager.instance.paused)
+        {
+            timeRemaining.SetText("Paused \npress p to unpause \nr to reset");
+        }
+        else
+        {
+            timeRemaining.SetText(GameManager.instance.TimeRemaining.ToString("00.00"));
+        }
+
         piles[0].SetText($"{cardManager.UserBins[0].criteria}\n{cardManager.UserBins[0].pile}");
         piles[0].color = cardManager.currentSelectedPileIndex == 0 ? Color.yellow : Color.white;
 
