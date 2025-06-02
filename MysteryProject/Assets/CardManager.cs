@@ -167,7 +167,7 @@ public class CardPile
 public class Card : IComparable<Card>
 {
     public string officialName => suit + " " + numberValue;
-    public int numberValue; // 0 - 9 
+    public int numberValue; // <0 thru 9>
     public CardSuit suit;
 
     public override string ToString()
