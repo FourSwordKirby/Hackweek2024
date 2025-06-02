@@ -33,7 +33,7 @@ public abstract class CardPileCriteria
     // Given a card pile, score a current pile.
     public virtual int ScorePile(CardPile pile)
     {
-        return pile.Cards.Count * (pile.Cards.Count + 1) / 2;
+        return pile.Count * (pile.Count + 1) / 2;
     }
 }
 
@@ -43,7 +43,7 @@ public class IncrementWithDuplicatesCriteria : CardPileCriteria
     {
         // First get the last card in the pile.
         // If no cards, card is auto valid.
-        if (pile.Cards.Count == 0)
+        if (pile.Count == 0)
         {
             return true;
         }
@@ -61,7 +61,7 @@ public class DecrementWithDuplicatesCriteria : CardPileCriteria
     {
         // First get the last card in the pile.
         // If no cards, card is auto valid.
-        if (pile.Cards.Count == 0)
+        if (pile.Count == 0)
         {
             return true;
         }
@@ -79,7 +79,7 @@ public class SameColorAnyNumberOrderCriteria : CardPileCriteria
     {
         // First get the last card in the pile.
         // If no cards, card is auto valid.
-        if (pile.Cards.Count == 0)
+        if (pile.Count == 0)
         {
             return true;
         }
