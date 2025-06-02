@@ -9,19 +9,20 @@ public class CardManager : MonoBehaviour
 {
     public CardPile MainDeck;
 
-    public List<CardPile> UserPiles = new List<CardPile>();
-    public List<CardPile> StashedPiles = new List<CardPile>();
+    public List<Bin> UserBins = new List<Bin>();
+    public List<GradedCardPile> StashedPiles = new List<GradedCardPile>();
 
-    public CardPile currentSelectedPile => UserPiles[currentSelectedPileIndex];
+    public CardPile currentSelectedPile => UserBins[currentSelectedPileIndex].pile;
+    public CardPileCriteria currentSelectedCriteria => UserBins[currentSelectedPileIndex].criteria;
     public int currentSelectedPileIndex = 0;
 
     public void Start()
     {
         MainDeck = new CardPile(true, true);
 
-        UserPiles.Add(new CardPile());
-        UserPiles.Add(new CardPile());
-        UserPiles.Add(new CardPile());
+        UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
+        UserBins.Add(new Bin(new DecrementWithDuplicatesCriteria()));
+        UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
     }
 
     public void Update()
@@ -39,7 +40,6 @@ public class CardManager : MonoBehaviour
         else if (Keyboard.current.upArrowKey.wasPressedThisFrame)
             StashAndCreateNewUserPile();
 
-
         if (Keyboard.current.enterKey.wasPressedThisFrame)
             TryAddCardToCurrentPile();
     }
@@ -50,7 +50,7 @@ public class CardManager : MonoBehaviour
         if (!currentSelectedPile.IsEmpty())
         {
             Card peekedPileCard = currentSelectedPile.PeekBottomCard();
-            if (peekedCard.SmallerThan(peekedPileCard))
+            if (!currentSelectedCriteria.IsCardValid(currentSelectedPile, peekedCard))
             {
                 Debug.LogError($"Can't add {peekedCard.numberValue} to pile. ({peekedCard.numberValue} < {peekedPileCard.numberValue})");
                 return;
@@ -65,7 +65,7 @@ public class CardManager : MonoBehaviour
 
     public void SelectNextPile()
     {
-        currentSelectedPileIndex = (currentSelectedPileIndex + 1) % UserPiles.Count;
+        currentSelectedPileIndex = (currentSelectedPileIndex + 1) % UserBins.Count;
 
         Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Cards.Count} cards.");
         Debug.Log(currentSelectedPile.ToString());
@@ -73,7 +73,7 @@ public class CardManager : MonoBehaviour
 
     public void SelectPreviousPile()
     {
-        currentSelectedPileIndex = (currentSelectedPileIndex - 1 + UserPiles.Count) % UserPiles.Count;
+        currentSelectedPileIndex = (currentSelectedPileIndex - 1 + UserBins.Count) % UserBins.Count;
 
         Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Cards.Count} cards.");
         Debug.Log(currentSelectedPile.ToString());
@@ -82,10 +82,36 @@ public class CardManager : MonoBehaviour
     public void StashAndCreateNewUserPile()
     {
         CardPile cardPileToStash = currentSelectedPile;
-        StashedPiles.Add(cardPileToStash);
-        UserPiles[currentSelectedPileIndex] = new CardPile();
+        StashedPiles.Add(new GradedCardPile(currentSelectedCriteria, cardPileToStash));
+        UserBins[currentSelectedPileIndex].pile = new CardPile();
 
         Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Cards.Count} cards.");
+    }
+}
+
+[Serializable]
+public class Bin
+{
+    public CardPileCriteria criteria;
+    public CardPile pile;
+
+    public Bin(CardPileCriteria criteria)
+    {
+        this.criteria = criteria;
+        this.pile = new CardPile();
+    }
+}
+
+[Serializable]
+public class GradedCardPile
+{
+    public CardPileCriteria criteria;
+    public CardPile pile;
+
+    public GradedCardPile(CardPileCriteria criteria, CardPile pile)
+    {
+        this.criteria = criteria;
+        this.pile = pile;
     }
 }
 
