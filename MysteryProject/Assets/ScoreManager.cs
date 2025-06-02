@@ -85,7 +85,23 @@ public class DecrementWithDuplicatesCriteria : CardPileCriteria
     }
 }
 
+public class SameColorAnyNumberOrderCriteria : CardPileCriteria
+{
+    public override bool IsCardValid(CardPile pile, Card card)
+    {
+        // First get the last card in the pile.
+        // If no cards, card is auto valid.
+        if (pile.Cards.Count == 0)
+        {
+            return true;
+        }
 
+        Card topCard = pile.PeekTopCard();
+        
+        // True if the card being added is greater than or equal to the top card of the deck.
+        return card.suit == topCard.suit;
+    }
+}
 
 
 public class GameState
