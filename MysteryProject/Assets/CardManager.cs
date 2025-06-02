@@ -16,6 +16,17 @@ public class CardManager : MonoBehaviour
     public CardPileCriteria currentSelectedCriteria => UserBins[currentSelectedPileIndex].criteria;
     public int currentSelectedPileIndex = 0;
 
+    public static CardManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
+
+
     public void Start()
     {
         MainDeck = new CardPile(true, true);
@@ -86,6 +97,22 @@ public class CardManager : MonoBehaviour
         UserBins[currentSelectedPileIndex].pile = new CardPile();
 
         Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Cards.Count} cards.");
+    }
+
+    public void StashAllPiles()
+    {
+        for (int i = 0; i < UserBins.Count; i++)
+        {
+            CardPile cardPileToStash = UserBins[currentSelectedPileIndex].pile;
+            if(cardPileToStash.Cards.Count == 0)
+            {
+                continue;
+            }
+
+            CardPileCriteria criteria = UserBins[currentSelectedPileIndex].criteria;
+            StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
+            UserBins[currentSelectedPileIndex].pile = new CardPile();
+        }
     }
 }
 

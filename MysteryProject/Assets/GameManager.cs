@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,15 @@ public class GameManager : MonoBehaviour
     public UnityEngine.InputSystem.Controls.KeyControl PauseButton = Keyboard.current.pKey;
     public UnityEngine.InputSystem.Controls.KeyControl ResetButton = Keyboard.current.rKey;
 
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
 
     // Update is called once per frame
     void Update()
@@ -46,6 +56,14 @@ public class GameManager : MonoBehaviour
     void EndGame()
     {
         Debug.Log("Game ended");
+        GameState finalGameState = new GameState();
+        finalGameState.TimeRemaining = (int)TimeRemaining;
+
+        CardManager.instance.StashAllPiles();
+        finalGameState.StashedPiles = CardManager.instance.StashedPiles;
+
+        int finalScore = ScoreManager.ScoreGame(finalGameState);
+        Debug.Log("Final Score: " + finalScore);
         paused = true;
     }
 }
