@@ -6,12 +6,25 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    public Deck deck;
+    public CardPile MainDeck;
 
+    public CardPile pile1;
+    public CardPile pile2;
+    public CardPile pile3;
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("Pile 1: " + pile1.PeekTopCard().ToString() + ": \n" +
+                    "Pile 2: " + pile1.PeekTopCard().ToString() + ": \n" +
+                    "Pile 3: " + pile1.PeekTopCard().ToString());
+        }
+    }
 }
 
 [Serializable]
-public class Deck
+public class CardPile
 {
     public List<Card> Cards;
 
@@ -39,9 +52,14 @@ public class Deck
 
 public class Card : IComparable<Card>
 {
-    public string officialName;
-    public int numberValue;
+    public string officialName => suit + " " + numberValue;
+    public int numberValue; <0 thru 9>
     public CardSuit suit;
+
+    public string ToString()
+    {
+        return officialName;
+    }
 
     public int CompareTo(Card other)
     {
