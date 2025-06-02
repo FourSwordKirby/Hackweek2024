@@ -2,24 +2,90 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class CardManager : MonoBehaviour
 {
     public CardPile MainDeck;
 
-    public CardPile pile1;
-    public CardPile pile2;
-    public CardPile pile3;
+    public List<CardPile> UserPiles = new List<CardPile>();
+    public List<CardPile> StashedPiles = new List<CardPile>();
+
+    public CardPile currentSelectedPile => UserPiles[currentSelectedPileIndex];
+    public int currentSelectedPileIndex = 0;
+
+    public void Start()
+    {
+        MainDeck = new CardPile(true, true);
+
+        UserPiles.Add(new CardPile());
+        UserPiles.Add(new CardPile());
+        UserPiles.Add(new CardPile());
+    }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (MainDeck.IsEmpty())
         {
-            Debug.Log("Pile 1: " + pile1.PeekTopCard().ToString() + ": \n" +
-                    "Pile 2: " + pile1.PeekTopCard().ToString() + ": \n" +
-                    "Pile 3: " + pile1.PeekTopCard().ToString());
+            Debug.LogError("Main deck is empty. Can't draw cards.");
+            return;
         }
+
+        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+            SelectPreviousPile();
+        else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+            SelectNextPile();
+        else if (Keyboard.current.upArrowKey.wasPressedThisFrame)
+            StashAndCreateNewUserPile();
+
+
+        if (Keyboard.current.enterKey.wasPressedThisFrame)
+            TryAddCardToCurrentPile();
+    }
+
+    public void TryAddCardToCurrentPile()
+    {
+        Card peekedCard = MainDeck.PeekTopCard();
+        if (!currentSelectedPile.IsEmpty())
+        {
+            Card peekedPileCard = currentSelectedPile.PeekBottomCard();
+            if (peekedCard.SmallerThan(peekedPileCard))
+            {
+                Debug.LogError($"Can't add {peekedCard.numberValue} to pile. ({peekedCard.numberValue} < {peekedPileCard.numberValue})");
+                return;
+            }
+        }
+
+        Card drawnCard = MainDeck.DrawTopCard();
+        currentSelectedPile.Cards.Add(drawnCard);
+
+        Debug.Log($"Added {drawnCard.officialName} to pile {currentSelectedPileIndex}.");
+    }
+
+    public void SelectNextPile()
+    {
+        currentSelectedPileIndex = (currentSelectedPileIndex + 1) % UserPiles.Count;
+
+        Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Cards.Count} cards.");
+        Debug.Log(currentSelectedPile.ToString());
+    }
+
+    public void SelectPreviousPile()
+    {
+        currentSelectedPileIndex = (currentSelectedPileIndex - 1 + UserPiles.Count) % UserPiles.Count;
+
+        Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Cards.Count} cards.");
+        Debug.Log(currentSelectedPile.ToString());
+    }
+
+    public void StashAndCreateNewUserPile()
+    {
+        CardPile cardPileToStash = currentSelectedPile;
+        StashedPiles.Add(cardPileToStash);
+        UserPiles[currentSelectedPileIndex] = new CardPile();
+
+        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Cards.Count} cards.");
     }
 }
 
@@ -27,6 +93,36 @@ public class CardManager : MonoBehaviour
 public class CardPile
 {
     public List<Card> Cards;
+
+    public CardPile(bool initialize = false, bool shuffle = false)
+    {
+        Cards = new List<Card>();
+
+        if (initialize)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < Enum.GetValues(typeof(CardSuit)).Length; j++)
+                {
+                    Card newCard = new Card();
+                    newCard.numberValue = i;
+                    newCard.suit = (CardSuit)j;
+                    Cards.Add(newCard);
+                }
+            }
+        }
+
+        if (shuffle)
+        {
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                Card temp = Cards[i];
+                int randomIndex = UnityEngine.Random.Range(0, Cards.Count);
+                Cards[i] = Cards[randomIndex];
+                Cards[randomIndex] = temp;
+            }
+        }
+    }
 
     public Card DrawTopCard()
     {
@@ -41,6 +137,12 @@ public class CardPile
         return DrawnCard;
     }
 
+    public Card PeekBottomCard()
+    {
+        Card DrawnCard = Cards[Cards.Count - 1];
+        return DrawnCard;
+    }
+
     public Card MulliganTopCard()
     {
         Card DrawnCard = Cards[0];
@@ -48,15 +150,27 @@ public class CardPile
         Cards.Add(DrawnCard);
         return DrawnCard;
     }
+
+    public bool IsEmpty() => Cards.Count == 0;
+
+    public override string ToString()
+    {
+        string output = "Cards in pile:\n";
+        foreach (Card card in Cards)
+            output += card.ToString() + "\n";
+        output.Remove(output.Length - 1);
+
+        return output;
+    }
 }
 
 public class Card : IComparable<Card>
 {
     public string officialName => suit + " " + numberValue;
-    public int numberValue; <0 thru 9>
+    public int numberValue; // 0 - 9 
     public CardSuit suit;
 
-    public string ToString()
+    public override string ToString()
     {
         return officialName;
     }
@@ -65,12 +179,16 @@ public class Card : IComparable<Card>
     {
         return numberValue - other.numberValue;
     }
+
+    public bool LargerThan(Card other) => numberValue > other.numberValue;
+
+    public bool SmallerThan(Card other) => numberValue < other.numberValue;
 }
 
 public enum CardSuit
 {
     Red,
-    Blue,
+    Yellow,
     Green,
-    Yellow
+    Blue
 }
