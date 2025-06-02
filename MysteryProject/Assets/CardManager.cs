@@ -16,6 +16,17 @@ public class CardManager : MonoBehaviour
     public CardPileCriteria currentSelectedCriteria => UserBins[currentSelectedPileIndex].criteria;
     public int currentSelectedPileIndex = 0;
 
+    public static CardManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
+
+
     public void Start()
     {
         MainDeck = new CardPile(true, true);
@@ -49,16 +60,16 @@ public class CardManager : MonoBehaviour
         Card peekedCard = MainDeck.PeekTopCard();
         if (!currentSelectedPile.IsEmpty())
         {
-            Card peekedPileCard = currentSelectedPile.PeekBottomCard();
             if (!currentSelectedCriteria.IsCardValid(currentSelectedPile, peekedCard))
             {
+                Card peekedPileCard = currentSelectedPile.PeekTopCard();
                 Debug.LogError($"Can't add {peekedCard.numberValue} to pile. ({peekedCard.numberValue} < {peekedPileCard.numberValue})");
                 return;
             }
         }
 
         Card drawnCard = MainDeck.DrawTopCard();
-        currentSelectedPile.Cards.Add(drawnCard);
+        currentSelectedPile.PlaceCardOnTop(drawnCard);
 
         Debug.Log($"Added {drawnCard.officialName} to pile {currentSelectedPileIndex}.");
     }
@@ -67,7 +78,7 @@ public class CardManager : MonoBehaviour
     {
         currentSelectedPileIndex = (currentSelectedPileIndex + 1) % UserBins.Count;
 
-        Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Cards.Count} cards.");
+        Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Count} cards.");
         Debug.Log(currentSelectedPile.ToString());
     }
 
@@ -75,7 +86,7 @@ public class CardManager : MonoBehaviour
     {
         currentSelectedPileIndex = (currentSelectedPileIndex - 1 + UserBins.Count) % UserBins.Count;
 
-        Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Cards.Count} cards.");
+        Debug.Log($"Selected user pile {currentSelectedPileIndex} with {currentSelectedPile.Count} cards.");
         Debug.Log(currentSelectedPile.ToString());
     }
 
@@ -85,7 +96,23 @@ public class CardManager : MonoBehaviour
         StashedPiles.Add(new GradedCardPile(currentSelectedCriteria, cardPileToStash));
         UserBins[currentSelectedPileIndex].pile = new CardPile();
 
-        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Cards.Count} cards.");
+        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Count} cards.");
+    }
+
+    public void StashAllPiles()
+    {
+        for (int i = 0; i < UserBins.Count; i++)
+        {
+            CardPile cardPileToStash = UserBins[currentSelectedPileIndex].pile;
+            if(cardPileToStash.Count == 0)
+            {
+                continue;
+            }
+
+            CardPileCriteria criteria = UserBins[currentSelectedPileIndex].criteria;
+            StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
+            UserBins[currentSelectedPileIndex].pile = new CardPile();
+        }
     }
 }
 
@@ -118,7 +145,9 @@ public class GradedCardPile
 [Serializable]
 public class CardPile
 {
-    public List<Card> Cards;
+    private List<Card> Cards;
+
+    public int Count => Cards.Count;
 
     public CardPile(bool initialize = false, bool shuffle = false)
     {
@@ -175,6 +204,11 @@ public class CardPile
         Cards.RemoveAt(0);
         Cards.Add(DrawnCard);
         return DrawnCard;
+    }
+
+    public void PlaceCardOnTop(Card card)
+    {
+        Cards.Insert(0, card);
     }
 
     public bool IsEmpty() => Cards.Count == 0;

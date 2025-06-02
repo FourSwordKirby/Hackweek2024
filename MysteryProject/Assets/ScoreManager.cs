@@ -1,31 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public static class ScoreManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static int ScoreGame(GameState gameState)
     {
-        
+        return ScoreAllPiles(gameState.StashedPiles) + gameState.TimeRemaining;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public int ScoreGame(GameState gameState)
-    {
-        return ScoreAllPiles(gameState.PileToCriteria) + gameState.TimeRemaining;
-    }
-
-    public int ScoreAllPiles(Dictionary<CardPile, CardPileCriteria> pileToCriteria)
+    public static int ScoreAllPiles(List<GradedCardPile> pileToCriteria)
     {
         int total = 0;
         foreach (var item in pileToCriteria)
         {
-            total += item.Value.ScorePile(item.Key);
+            total += item.criteria.ScorePile(item.pile);
         }
         
         return total;
@@ -45,7 +33,7 @@ public abstract class CardPileCriteria
     // Given a card pile, score a current pile.
     public virtual int ScorePile(CardPile pile)
     {
-        return pile.Cards.Count * (pile.Cards.Count + 1) / 2;
+        return pile.Count * (pile.Count + 1) / 2;
     }
 }
 
@@ -55,7 +43,7 @@ public class IncrementWithDuplicatesCriteria : CardPileCriteria
     {
         // First get the last card in the pile.
         // If no cards, card is auto valid.
-        if (pile.Cards.Count == 0)
+        if (pile.Count == 0)
         {
             return true;
         }
@@ -73,7 +61,7 @@ public class DecrementWithDuplicatesCriteria : CardPileCriteria
     {
         // First get the last card in the pile.
         // If no cards, card is auto valid.
-        if (pile.Cards.Count == 0)
+        if (pile.Count == 0)
         {
             return true;
         }
@@ -91,7 +79,7 @@ public class SameColorAnyNumberOrderCriteria : CardPileCriteria
     {
         // First get the last card in the pile.
         // If no cards, card is auto valid.
-        if (pile.Cards.Count == 0)
+        if (pile.Count == 0)
         {
             return true;
         }
@@ -106,7 +94,7 @@ public class SameColorAnyNumberOrderCriteria : CardPileCriteria
 
 public class GameState
 {
-    public Dictionary<CardPile, CardPileCriteria> PileToCriteria;
+    public List<GradedCardPile> StashedPiles;
     public int TimeRemaining;
 }
 
