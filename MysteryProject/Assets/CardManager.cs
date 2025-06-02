@@ -27,6 +27,11 @@ public class CardManager : MonoBehaviour
 public class CardPile
 {
     public List<Card> Cards;
+    
+    public int ScorePile()
+    {
+        return Cards.Count * (Cards.Count + 1) / 2;
+    }
 
     public Card DrawTopCard()
     {
@@ -53,7 +58,7 @@ public class CardPile
 public class Card : IComparable<Card>
 {
     public string officialName => suit + " " + numberValue;
-    public int numberValue; <0 thru 9>
+    public int numberValue; // <0 thru 9>
     public CardSuit suit;
 
     public string ToString()

@@ -28,24 +28,4 @@ public class ScoreManager : MonoBehaviour
     
 }
 
-// This should definitely live somewhere else (like a GameManager), but 
-// we'll define how it should hook in for now (to get a rough idea)
-public class CardPile
-{
-    public List<Card> Cards;
-    
-    public virtual int ScorePile()
-    {
-        return Cards.Count * (Cards.Count + 1) / 2;
-    }
-}
-
-public class IncrementWithDuplicatesPile : CardPile
-{
-}
-
-public class DecrementWithDuplicatesPile : CardPile
-{
-}
-
 
