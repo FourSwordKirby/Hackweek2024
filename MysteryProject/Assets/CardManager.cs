@@ -27,11 +27,6 @@ public class CardManager : MonoBehaviour
 public class CardPile
 {
     public List<Card> Cards;
-    
-    public int ScorePile()
-    {
-        return Cards.Count * (Cards.Count + 1) / 2;
-    }
 
     public Card DrawTopCard()
     {

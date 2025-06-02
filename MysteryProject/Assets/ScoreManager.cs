@@ -15,17 +15,33 @@ public class ScoreManager : MonoBehaviour
         
     }
 
-    public int ScoreGame(List<CardPile> pileList)
+    public int ScoreGame(GameState gameState)
+    {
+        return ScoreAllPiles(gameState.Piles) + gameState.TimeRemaining;
+    }
+
+    public int ScoreAllPiles(List<CardPile> pileList)
     {
         int total = 0;
         foreach (CardPile pile in pileList)
         {
-            total += pile.ScorePile();
+            total += ScorePile(pile);
         }
         
         return total;
     }
     
+    public int ScorePile(CardPile pile)
+    {
+        return pile.Cards.Count * (pile.Cards.Count + 1) / 2;
+    }
+    
+}
+
+public class GameState
+{
+    public List<CardPile> Piles;
+    public int TimeRemaining;
 }
 
 
