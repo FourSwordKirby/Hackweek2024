@@ -9,13 +9,26 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI timeRemaining;
 
+    public void OnGameEnded(int score)
+    {
+        timeRemaining.SetText($"Game Over! \nScore: {score} \nPress R to reset");
+    }
+
     void Update()
     {
-        if(GameManager.instance.paused)
+        if (GameManager.instance.CurrentState == GameManager.GameManagerState.NotStarted)
         {
-            timeRemaining.SetText("Paused \npress p to unpause \nr to reset");
+            timeRemaining.SetText($"Press <b>{GameManager.instance.PauseButton.displayName}</b> to start!");
+            return;
         }
-        else
+        else if (GameManager.instance.CurrentState == GameManager.GameManagerState.Paused)
+        {
+            timeRemaining.SetText($"Paused!\n"
+                                + $"Time Remaining: {GameManager.instance.TimeRemaining:00.00}\n"
+                                + $"Press <b>{GameManager.instance.PauseButton.displayName}</b> to resume.\n"
+                                + $"Press <b>{GameManager.instance.ResetButton.displayName}</b> to reset.");
+        }
+        else if (GameManager.instance.CurrentState == GameManager.GameManagerState.Running)
         {
             timeRemaining.SetText(GameManager.instance.TimeRemaining.ToString("00.00"));
         }
