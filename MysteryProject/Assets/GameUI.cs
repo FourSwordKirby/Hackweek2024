@@ -9,9 +9,9 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI timeRemaining;
 
-    public void OnGameEnded(int score)
+    public void OnGameEnded(GameState finalGameState)
     {
-        timeRemaining.SetText($"Game Over! \nScore: {score} \nPress R to reset");
+        timeRemaining.SetText($"Game Over! \nScore: {ScoreManager.ScoreGame(finalGameState)} \nPress R to reset");
     }
 
     void Update()

@@ -142,7 +142,6 @@ Transform:
   - {fileID: 3826007731903012713}
   - {fileID: 661532814821168522}
   - {fileID: 4287506734348238570}
-  - {fileID: 7468401748035375818}
   m_Father: {fileID: 4682649774341822967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3294283038720412642
@@ -278,12 +277,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4059728392134765070}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2877850053263181224}
+  m_Father: {fileID: 4682649774341822967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -783,6 +782,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7468401748035375818}
   - {fileID: 2877850053263181224}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -799,6 +799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 1065500403998465455, guid: f6e757b4a4d547d45b5c78049cc39975, type: 3}
+  stackTray: {fileID: 1981995277873327634}
   scoreTally: {fileID: 5546279641014015205}
   currentDisplayedScore: 0
   targetScore: 0

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGamePaused = new UnityEvent();
     public UnityEvent OnGameResumed = new UnityEvent();
     public UnityEvent OnGameReset = new UnityEvent();
-    public UnityEvent<int> OnGameEnded = new UnityEvent<int>();
+    public UnityEvent<GameState> OnGameEnded = new UnityEvent<GameState>();
 
     public UnityEvent<GameManagerState> OnGameStateChanged = new UnityEvent<GameManagerState>();
 
@@ -121,10 +121,8 @@ public class GameManager : MonoBehaviour
         CardManager.instance.StashAllPiles();
         finalGameState.StashedPiles = CardManager.instance.StashedPiles;
 
-        int finalScore = ScoreManager.ScoreGame(finalGameState);
-        Debug.Log("Final Score: " + finalScore);
         CurrentState = GameManagerState.Ended;
 
-        OnGameEnded?.Invoke(finalScore);
+        OnGameEnded?.Invoke(finalGameState);
     }
 }
