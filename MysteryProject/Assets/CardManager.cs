@@ -171,6 +171,13 @@ public class CardPile
         return DrawnCard;
     }
 
+    public Card DrawBottomCard()
+    {
+        Card DrawnCard = Cards[Cards.Count-1];
+        Cards.RemoveAt(Cards.Count - 1);
+        return DrawnCard;
+    }
+
     public Card PeekBottomCard()
     {
         Card DrawnCard = Cards[Cards.Count - 1];
