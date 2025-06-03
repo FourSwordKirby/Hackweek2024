@@ -80,7 +80,7 @@ public class StackTallyAnimator : MonoBehaviour
         float rotationTimer = 0;
         while (rotationTimer <= 1)
         {
-            stackTray.transform.Rotate(Vector3.forward, 360 * Time.deltaTime);
+            stackTray.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0, 0, 360 * rotationTimer));
             rotationTimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
