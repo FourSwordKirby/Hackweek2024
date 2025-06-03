@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public static event System.Action OnEndGame;
+
     private void Awake()
     {
         if (instance == null)
@@ -71,6 +73,8 @@ public class GameManager : MonoBehaviour
             int finalScore = ScoreManager.ScoreGame(finalGameState);
             Debug.Log("Final Score: " + finalScore);
             paused = true;
+
+            OnEndGame?.Invoke();
         }
     }
 }
