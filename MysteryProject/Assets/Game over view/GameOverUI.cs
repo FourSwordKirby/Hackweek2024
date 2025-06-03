@@ -25,7 +25,7 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
-    private void OnEndGame(int s)
+    private void OnEndGame(GameState s)
     {
         m_animator.Play("Animation");
     }
