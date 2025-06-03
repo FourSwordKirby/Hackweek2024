@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public enum GameManagerState { NotStarted, Running, Paused, Ended }
     public GameManagerState CurrentState = GameManagerState.NotStarted;
+    GameManagerState previousState = GameManagerState.NotStarted;
 
     public UnityEngine.InputSystem.Controls.KeyControl PauseButton = Keyboard.current?.pKey;
     public UnityEngine.InputSystem.Controls.KeyControl ResetButton = Keyboard.current?.rKey;
@@ -20,7 +21,13 @@ public class GameManager : MonoBehaviour
     public UnityEngine.InputSystem.Controls.KeyControl stashAndCreateNewUserPile = Keyboard.current?.enterKey;
     public UnityEngine.InputSystem.Controls.KeyControl addCardToCurrentPile = Keyboard.current?.spaceKey;
 
+    public UnityEvent OnGameStarted = new UnityEvent();
+    public UnityEvent OnGamePaused = new UnityEvent();
+    public UnityEvent OnGameResumed = new UnityEvent();
+    public UnityEvent OnGameReset = new UnityEvent();
     public UnityEvent<int> OnGameEnded = new UnityEvent<int>();
+
+    public UnityEvent<GameManagerState> OnGameStateChanged = new UnityEvent<GameManagerState>();
 
     public static GameManager instance;
 
@@ -35,21 +42,38 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CurrentState != previousState)
+        {
+            OnGameStateChanged?.Invoke(CurrentState);
+            previousState = CurrentState;
+        }
+
         switch (CurrentState)
         {
             case GameManagerState.NotStarted:
                 if (PauseButton.wasPressedThisFrame)
+                {
                     CurrentState = GameManagerState.Running;
+                    OnGameStarted?.Invoke();
+                }
                 break;
             case GameManagerState.Running:
                 if (PauseButton.wasPressedThisFrame)
+                {
                     CurrentState = GameManagerState.Paused;
+                    OnGamePaused?.Invoke();
+                }
                 break;
             case GameManagerState.Paused:
                 if (PauseButton.wasPressedThisFrame)
+                {
                     CurrentState = GameManagerState.Running;
+                    OnGameResumed?.Invoke();
+                }
                 else if (ResetButton.wasPressedThisFrame)
+                {
                     ResetGame();
+                }
                 return;
             case GameManagerState.Ended:
                 if (ResetButton.wasPressedThisFrame)
@@ -81,6 +105,8 @@ public class GameManager : MonoBehaviour
         TimeRemaining = InitialTime;
         CardManager.instance.MainDeck = new CardPile(true, true);
         CurrentState = GameManagerState.NotStarted;
+
+        OnGameReset?.Invoke();
     }
 
     void EndGame()
