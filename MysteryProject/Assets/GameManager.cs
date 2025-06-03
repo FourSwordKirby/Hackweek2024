@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
                     CurrentState = GameManagerState.Running;
                     OnGameStarted?.Invoke();
                 }
-                break;
+                return;
             case GameManagerState.Running:
                 if (PauseButton.wasPressedThisFrame)
                 {
