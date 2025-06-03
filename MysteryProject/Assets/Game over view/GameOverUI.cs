@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[DefaultExecutionOrder(-50)]
 public class GameOverUI : MonoBehaviour
 {
     private Animator m_animator;
@@ -16,19 +17,15 @@ public class GameOverUI : MonoBehaviour
         {
             canvas.worldCamera = Camera.main;
         }
+
+        
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnGameEnded.AddListener(OnEndGame);
+        }
     }
 
-    void OnEnable()
-    {
-        GameManager.OnEndGame += OnEndGame;
-    }
-
-    void OnDisable()
-    {
-        GameManager.OnEndGame -= OnEndGame;
-    }
-
-    private void OnEndGame()
+    private void OnEndGame(int s)
     {
         m_animator.Play("Animation");
     }

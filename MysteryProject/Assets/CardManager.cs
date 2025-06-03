@@ -36,25 +36,6 @@ public class CardManager : MonoBehaviour
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
     }
 
-    public void Update()
-    {
-        if (MainDeck.IsEmpty())
-        {
-            Debug.LogError("Main deck is empty. Can't draw cards.");
-            return;
-        }
-
-        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
-            SelectPreviousPile();
-        else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
-            SelectNextPile();
-        else if (Keyboard.current.upArrowKey.wasPressedThisFrame)
-            StashAndCreateNewUserPile();
-
-        if (Keyboard.current.enterKey.wasPressedThisFrame)
-            TryAddCardToCurrentPile();
-    }
-
     public void TryAddCardToCurrentPile()
     {
         Card peekedCard = MainDeck.PeekTopCard();

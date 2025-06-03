@@ -39,6 +39,8 @@ public abstract class CardPileCriteria
 
 public class IncrementWithDuplicatesCriteria : CardPileCriteria
 {
+    public override string ToString() => "Increment with Duplicates";
+
     public override bool IsCardValid(CardPile pile, Card card)
     {
         // First get the last card in the pile.
@@ -57,6 +59,8 @@ public class IncrementWithDuplicatesCriteria : CardPileCriteria
 
 public class DecrementWithDuplicatesCriteria : CardPileCriteria
 {
+    public override string ToString() => "Decrement with Duplicates";
+
     public override bool IsCardValid(CardPile pile, Card card)
     {
         // First get the last card in the pile.
@@ -75,6 +79,8 @@ public class DecrementWithDuplicatesCriteria : CardPileCriteria
 
 public class SameColorAnyNumberOrderCriteria : CardPileCriteria
 {
+    public override string ToString() => "Same Color Any Number Order";
+    
     public override bool IsCardValid(CardPile pile, Card card)
     {
         // First get the last card in the pile.
