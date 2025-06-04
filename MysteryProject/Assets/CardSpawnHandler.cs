@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ public class CardSpawnHandler : MonoBehaviour
     [SerializeField] Vector3 cardSpawnRotation;
     [SerializeField] Vector3[] cardSpawnPositions;
 
+    [SerializeField] Vector3 initialSpawnPosition;
+    [SerializeField] float[] animationForces;
+    [SerializeField] float[] animationTimes;
+    
     List<List<GameObject>> spawnedCards = new();
 
     void OnEnable()
@@ -52,7 +57,13 @@ public class CardSpawnHandler : MonoBehaviour
     void SpawnCardVisual(int pileIndex)
     {
         Card drawnCard = cardManager.currentSelectedPile.PeekTopCard();
-        GameObject cardVisual = Instantiate(cardPrefab, cardSpawnPositions[pileIndex], Quaternion.Euler(cardSpawnRotation));
+        
+        // Spawn a card at the initial position, give it a force in the direction of the card spawn position
+        // Then a second later, we need to reset the position and velocity to cardspawnposition and 0.
+        
+        //GameObject cardVisual = Instantiate(cardPrefab, cardSpawnPositions[pileIndex], Quaternion.Euler(cardSpawnRotation));
+        Quaternion finalCardRotation = Quaternion.Euler(cardSpawnRotation);
+        GameObject cardVisual = Instantiate(cardPrefab, initialSpawnPosition, finalCardRotation);
         cardVisual.GetComponentInChildren<CardVisuals>().baseCardInfo = drawnCard;
 
         if (pileIndex > spawnedCards.Count - 1)
@@ -61,6 +72,37 @@ public class CardSpawnHandler : MonoBehaviour
 
         spawnedCards[pileIndex].Add(cardVisual);
         heldCardModel.baseCardInfo = cardManager.MainDeck.PeekTopCard();
+        
+        // 
+        Vector3 finalCardPosition = cardSpawnPositions[pileIndex];
+        Vector3 forceDirection = finalCardPosition - initialSpawnPosition;
+        forceDirection.y += 0.5f;
+        StartCoroutine(StartCardThrowAnimation(
+            cardVisual,
+            finalCardPosition,
+            finalCardRotation,
+            forceDirection,
+            animationForces[pileIndex],
+            animationTimes[pileIndex]));
+    }
+
+    private IEnumerator StartCardThrowAnimation(
+        GameObject cardVisual, 
+        Vector3 finalPosition, 
+        Quaternion finalRotation,
+        Vector3 forceDirection, 
+        float force, 
+        float time)
+    {
+        Rigidbody cardRigidBody = cardVisual.GetComponent<Rigidbody>();
+        cardRigidBody.AddForce(forceDirection * force);
+        yield return new WaitForSeconds(time);
+        
+        // After the specified time, reset the position and the velocity.
+        cardRigidBody.linearVelocity = Vector3.zero;
+        cardRigidBody.angularVelocity = Vector3.zero;
+        cardRigidBody.position = finalPosition;
+        cardRigidBody.rotation = finalRotation;
     }
 
     void OnPileStashed(int pileIndex)

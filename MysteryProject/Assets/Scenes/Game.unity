@@ -6026,6 +6026,15 @@ MonoBehaviour:
   - {x: 4.79, y: 2, z: 6.67}
   - {x: 3.86, y: 2, z: 6.95}
   - {x: 2.94, y: 2, z: 7.26}
+  initialSpawnPosition: {x: 4.15, y: 2, z: 7.93}
+  animationForces:
+  - 170
+  - 150
+  - 170
+  animationTimes:
+  - 0.2
+  - 0.2
+  - 0.2
 --- !u!1001 &933204530
 PrefabInstance:
   m_ObjectHideFlags: 0
