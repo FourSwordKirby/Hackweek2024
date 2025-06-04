@@ -79,6 +79,9 @@ public class CardManager : MonoBehaviour
 
     public void StashAndCreateNewUserPile()
     {
+        if (UserBins[currentSelectedPileIndex].pile.Count <= 0)
+            return;
+
         GradedCardPile cardPileToStash = UserBins[currentSelectedPileIndex].ProcessBin();
         StashedPiles.Add(cardPileToStash);
 
