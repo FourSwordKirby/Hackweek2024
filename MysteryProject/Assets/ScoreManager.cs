@@ -30,6 +30,8 @@ public abstract class CardPileCriteria
     // Returns true if the new card can go on top of the pile.
     public abstract bool IsCardValid(CardPile pile, Card card);
 
+    public abstract string CriteriaDescriptor();
+
     // Given a card pile, score a current pile.
     public virtual int ScorePile(CardPile pile)
     {
@@ -39,8 +41,6 @@ public abstract class CardPileCriteria
 
 public class IncrementWithDuplicatesCriteria : CardPileCriteria
 {
-    public override string ToString() => "Increment with Duplicates";
-
     public override bool IsCardValid(CardPile pile, Card card)
     {
         // First get the last card in the pile.
@@ -55,12 +55,15 @@ public class IncrementWithDuplicatesCriteria : CardPileCriteria
         // True if the card being added is greater than or equal to the top card of the deck.
         return card.CompareTo(topCard) >= 0;
     }
+
+    public override string CriteriaDescriptor()
+    {
+        return "Increment with Duplicates";
+    }
 }
 
 public class DecrementWithDuplicatesCriteria : CardPileCriteria
 {
-    public override string ToString() => "Decrement with Duplicates";
-
     public override bool IsCardValid(CardPile pile, Card card)
     {
         // First get the last card in the pile.
@@ -74,6 +77,10 @@ public class DecrementWithDuplicatesCriteria : CardPileCriteria
 
         // True if the card being added is greater than or equal to the top card of the deck.
         return card.CompareTo(topCard) <= 0;
+    }
+    public override string CriteriaDescriptor()
+    {
+        return "Decrement with Duplicates";
     }
 }
 
@@ -95,6 +102,10 @@ public class SameColorAnyNumberOrderCriteria : CardPileCriteria
         // True if the card being added is the same suit as the top card of the deck
         return card.suit == topCard.suit;
     }
+    public override string CriteriaDescriptor()
+    {
+        return "Cards with the same color";
+    }
 }
 
 public class DiffierentColorCriteria : CardPileCriteria
@@ -113,6 +124,11 @@ public class DiffierentColorCriteria : CardPileCriteria
         // True if the card being added is NOT the same suit as the top card of the deck
         return card.suit != topCard.suit;
     }
+
+    public override string CriteriaDescriptor()
+    {
+        return "Cards with the different colors";
+    }
 }
 
 public class FibbonacciCriteria : CardPileCriteria
@@ -128,6 +144,11 @@ public class FibbonacciCriteria : CardPileCriteria
         {
             return (currentPile[currentPile.Length - 1].numberValue + currentPile[currentPile.Length - 2].numberValue) == card.numberValue;
         }
+    }
+
+    public override string CriteriaDescriptor()
+    {
+        return "Cards in a Fibonacci Sequence";
     }
 }
 
@@ -149,6 +170,11 @@ public class PrimeCriteria : CardPileCriteria
             card.numberValue == 37;
         // And so forth
     }
+
+    public override string CriteriaDescriptor()
+    {
+        return "Cards with the Prime number values";
+    }
 }
 
 public class MersennePrimeCriteria : CardPileCriteria
@@ -164,6 +190,11 @@ public class MersennePrimeCriteria : CardPileCriteria
             card.numberValue == 19 ||
             card.numberValue == 31;
         // And so forth
+    }
+
+    public override string CriteriaDescriptor()
+    {
+        return "Cards with the Mersenne Prime number values";
     }
 }
 
@@ -187,6 +218,11 @@ public class PoliteCriteria : CardPileCriteria
                 card.numberValue == 15 ||
                 card.numberValue == 17;
             // And so forth
+    }
+
+    public override string CriteriaDescriptor()
+    {
+        return "Cards with the Polite number values";
     }
 }
 
