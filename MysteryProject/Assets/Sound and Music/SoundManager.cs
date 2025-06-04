@@ -17,6 +17,11 @@ public class SoundManager : MonoBehaviour
     private AudioSource m_cardAddedAudioSource;
     [SerializeField]
     private AudioSource m_pileStashedAudioSource;
+    [SerializeField]
+    private AudioSource m_gameEndedAudioSource;
+    
+    [SerializeField]
+    private AudioSource m_wrongPileAudioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +33,7 @@ public class SoundManager : MonoBehaviour
 
         CardManager.instance.OnCardAddedToPile.AddListener(OnCardAddedToPile);
         CardManager.instance.OnPileStashed.AddListener(OnPileStashed);
+        CardManager.instance.OnFailedToAddCard.AddListener(OnFailedToAddCard);
     }
 
     void OnDestroy()
@@ -39,6 +45,7 @@ public class SoundManager : MonoBehaviour
 
         CardManager.instance.OnCardAddedToPile.AddListener(OnCardAddedToPile);
         CardManager.instance.OnPileStashed.AddListener(OnPileStashed);
+        CardManager.instance.OnFailedToAddCard.AddListener(OnFailedToAddCard);
     }
 
     private void OnCardAddedToPile(int arg0)
@@ -49,6 +56,11 @@ public class SoundManager : MonoBehaviour
     private void OnPileStashed(int arg0)
     {
         m_pileStashedAudioSource.Play();
+    }
+
+    private void OnFailedToAddCard()
+    {
+        m_wrongPileAudioSource.Play();
     }
 
     private void OnGameStarted()
@@ -62,6 +74,7 @@ public class SoundManager : MonoBehaviour
     private void OnGameEnded(GameState arg0)
     {
         m_muiscAudioSource.Stop();
+        m_gameEndedAudioSource.Play();
     }
 
     private void OnGameReset()
