@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 
@@ -15,6 +16,9 @@ public class CardManager : MonoBehaviour
     public CardPile currentSelectedPile => UserBins[currentSelectedPileIndex].pile;
     public CardPileCriteria currentSelectedCriteria => UserBins[currentSelectedPileIndex].criteria;
     public int currentSelectedPileIndex = 0;
+
+    public UnityEvent<int> OnPileStashed = new UnityEvent<int>();
+    public UnityEvent<int> OnCardAddedToPile = new UnityEvent<int>();
 
     public static CardManager instance;
 
@@ -53,6 +57,7 @@ public class CardManager : MonoBehaviour
         currentSelectedPile.PlaceCardOnTop(drawnCard);
 
         Debug.Log($"Added {drawnCard.officialName} to pile {currentSelectedPileIndex}.");
+        OnCardAddedToPile?.Invoke(currentSelectedPileIndex);
     }
 
     public void SelectNextPile()
@@ -78,6 +83,7 @@ public class CardManager : MonoBehaviour
         UserBins[currentSelectedPileIndex].pile = new CardPile();
 
         Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Count} cards.");
+        OnPileStashed?.Invoke(currentSelectedPileIndex);
     }
 
     public void StashAllPiles()

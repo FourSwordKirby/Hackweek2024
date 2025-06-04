@@ -117,6 +117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2877850053263181224}
+  - component: {fileID: 4964520494229787945}
   m_Layer: 0
   m_Name: HoldingContainer
   m_TagString: Untagged
@@ -144,6 +145,33 @@ Transform:
   - {fileID: 4287506734348238570}
   m_Father: {fileID: 4682649774341822967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &4964520494229787945
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981995277873327634}
+  serializedVersion: 5
+  m_Mass: 1000
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 2
+  m_Constraints: 62
+  m_CollisionDetection: 2
 --- !u!1 &3294283038720412642
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b14887719e1e1644ac09cb2829e734c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 1065500403998465455, guid: f6e757b4a4d547d45b5c78049cc39975, type: 3}
+  cardPrefab: {fileID: 8369235022338407353, guid: 6c05e57fd0ba2894a88ca437f452a5a6, type: 3}
   stackTray: {fileID: 1981995277873327634}
   scoreTally: {fileID: 5546279641014015205}
   currentDisplayedScore: 0

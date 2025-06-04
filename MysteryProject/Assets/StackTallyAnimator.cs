@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class StackTallyAnimator : MonoBehaviour
 {
-    public GameObject cardPrefab;
+    public CardVisuals cardPrefab;
     public GameObject stackTray;
     public TextMeshPro scoreTally;
 
@@ -54,7 +54,8 @@ public class StackTallyAnimator : MonoBehaviour
         while (!pile.IsEmpty())
         {
             Card BottomCard = pile.DrawBottomCard();
-            GameObject TopCardObject = Instantiate(cardPrefab, this.transform.position + Vector3.up * 10, Quaternion.identity);
+            GameObject TopCardObject = Instantiate(cardPrefab.gameObject, this.transform.position + Vector3.up * 10, Quaternion.identity);
+            TopCardObject.GetComponent<CardVisuals>().baseCardInfo = BottomCard;
             TopCardObject.GetComponent<Rigidbody>().linearVelocity = Vector3.down * 10;
 
             cardScored = false;
@@ -84,5 +85,7 @@ public class StackTallyAnimator : MonoBehaviour
             rotationTimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        stackTray.transform.rotation = Quaternion.identity;
+
     }
 }
