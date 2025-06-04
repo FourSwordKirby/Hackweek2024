@@ -164,6 +164,14 @@ public class CardPile
         }
     }
 
+    /// <summary>
+    /// Returns a copy of the current pile of cards in order for the user to inspect
+    /// </summary>
+    public Card[] PeekAllCards()
+    {
+        return Cards.ToArray();
+    }
+
     public Card DrawTopCard()
     {
         Card DrawnCard = Cards[0];
