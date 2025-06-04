@@ -11,26 +11,27 @@ public class CardVisuals : MonoBehaviour
     public Material YellowMaterial;
     public Material GreenMaterial;
     public Material BlueMaterial;
-    
+
     public GameObject iconPrefab;
     public GameObject redIconPrefab;
     public GameObject yellowIconPrefab;
     public GameObject greenIconPrefab;
     public GameObject blueIconPrefab;
-    
+
     public Card baseCardInfo;
     private IconGenerator iconGenerator;
-    
+
     void Start()
     {
         InitializeIconGenerator();
         UpdateVisuals();
     }
+
     void Update()
     {
         UpdateVisuals();
     }
-    
+
     private void InitializeIconGenerator()
     {
         iconGenerator = iconPrefab.GetComponent<IconGenerator>();
@@ -39,11 +40,13 @@ public class CardVisuals : MonoBehaviour
             iconGenerator = iconPrefab.AddComponent<IconGenerator>();
         }
     }
-    
+
     public void UpdateVisuals()
     {
         if (baseCardInfo == null)
         {
+            UpdateIcons();
+            TopNumber.text = BottomNumber.text = string.Empty;
             selfRenderer.enabled = false;
             return;
         }
@@ -52,6 +55,7 @@ public class CardVisuals : MonoBehaviour
         UpdateCardAppearance();
         UpdateIcons();
     }
+
     private void UpdateCardAppearance()
     {
         if (baseCardInfo == null)
@@ -81,21 +85,22 @@ public class CardVisuals : MonoBehaviour
         TopNumber.text = BottomNumber.text = baseCardInfo.numberValue.ToString();
         TopNumber.color = BottomNumber.color = textColor;
     }
+
     private void UpdateIcons()
     {
         if (iconGenerator == null) return;
 
         // Select the appropriate prefab based on suit
-        iconGenerator.iconPrefab = baseCardInfo.suit switch
+        iconGenerator.iconPrefab = baseCardInfo != null ? baseCardInfo.suit switch
         {
             CardSuit.Red => redIconPrefab,
             CardSuit.Yellow => yellowIconPrefab,
             CardSuit.Green => greenIconPrefab,
             CardSuit.Blue => blueIconPrefab,
             _ => blueIconPrefab
-        };
+        } : blueIconPrefab;
 
         // Update the icons
-        iconGenerator.UpdateIconsFromNumber(baseCardInfo.numberValue);
+        iconGenerator.UpdateIconsFromNumber(baseCardInfo != null ? baseCardInfo.numberValue : 0);
     }
 }
