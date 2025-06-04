@@ -23,7 +23,7 @@ public class StackTallyAnimator : MonoBehaviour
     private void Update()
     {
         currentDisplayedScore += (targetScore - currentDisplayedScore) * Time.deltaTime * 2;
-        scoreTally.text = Mathf.CeilToInt(currentDisplayedScore).ToString();
+        scoreTally.text = "Final Score: " + Mathf.CeilToInt(currentDisplayedScore).ToString();
     }
 
     private void PlayResultAnimation(GameState finalGameState)
@@ -79,10 +79,10 @@ public class StackTallyAnimator : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         float flingTimer = 0;
-        while (flingTimer <= 0.3)
+        while (flingTimer <= 0.2)
         {
-            stackTray.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(60 * flingTimer * (1.0f/0.3f), 0, 0));
-            stackTray.GetComponent<Rigidbody>().MovePosition(transform.TransformPoint(Vector3.up * flingTimer * (1.0f / 0.3f)));
+            stackTray.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(60 * flingTimer * (1.0f/0.2f), 0, 0));
+            stackTray.GetComponent<Rigidbody>().MovePosition(transform.TransformPoint(Vector3.up * flingTimer * (1.0f / 0.2f)));
 
             flingTimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
