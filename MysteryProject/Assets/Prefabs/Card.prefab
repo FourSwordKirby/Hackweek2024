@@ -428,7 +428,6 @@ GameObject:
   - component: {fileID: 3820545387689360587}
   - component: {fileID: 748426078634068841}
   - component: {fileID: 174292480355127284}
-  - component: {fileID: 9179942092477463604}
   m_Layer: 0
   m_Name: Card Model
   m_TagString: Untagged
@@ -505,30 +504,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9179942092477463604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7379913359591807353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99cd9e5076ba5b49a18e39c16bfebf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TopNumber: {fileID: 7207892057815563333}
-  BottomNumber: {fileID: 8828817620997597818}
-  selfRenderer: {fileID: 174292480355127284}
-  RedMaterial: {fileID: 2100000, guid: cf6c81f65c9d2164da5341ecabb38553, type: 2}
-  YellowMaterial: {fileID: 2100000, guid: a0fdd5d19dea4a0409f4d978349116a8, type: 2}
-  GreenMaterial: {fileID: 2100000, guid: e8a95c91713dcf442ac430d6ca8ab651, type: 2}
-  BlueMaterial: {fileID: 2100000, guid: 3f79fa7909d7896458a74d4ed69fd8fe, type: 2}
-  iconPrefab: {fileID: 2072840835142511554}
-  redIconPrefab: {fileID: 7752430641820230201, guid: d9459e2f22c09dd43994703b7ab6b5e0, type: 3}
-  yellowIconPrefab: {fileID: 7181941203817444372, guid: 4109e53ea2213fa40a2fb043838d011d, type: 3}
-  greenIconPrefab: {fileID: 1989994594732867433, guid: 6af911946f1e7e94eb610797cac99860, type: 3}
-  blueIconPrefab: {fileID: 9130309742642736928, guid: e9a2e4562d3510e4cb9361740cedda81, type: 3}
 --- !u!1 &8527870783150082194
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +515,7 @@ GameObject:
   - component: {fileID: 9019946872316305314}
   - component: {fileID: 7227438495545581395}
   - component: {fileID: 6742486802850533756}
+  - component: {fileID: 5641371873973216667}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -611,3 +587,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.7, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5641371873973216667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8527870783150082194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99cd9e5076ba5b49a18e39c16bfebf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TopNumber: {fileID: 7207892057815563333}
+  BottomNumber: {fileID: 8828817620997597818}
+  selfRenderer: {fileID: 174292480355127284}
+  RedMaterial: {fileID: 2100000, guid: cf6c81f65c9d2164da5341ecabb38553, type: 2}
+  YellowMaterial: {fileID: 2100000, guid: a0fdd5d19dea4a0409f4d978349116a8, type: 2}
+  GreenMaterial: {fileID: 2100000, guid: e8a95c91713dcf442ac430d6ca8ab651, type: 2}
+  BlueMaterial: {fileID: 2100000, guid: 3f79fa7909d7896458a74d4ed69fd8fe, type: 2}
+  iconPrefab: {fileID: 1553244083269409217}
+  redIconPrefab: {fileID: 7752430641820230201, guid: d9459e2f22c09dd43994703b7ab6b5e0, type: 3}
+  yellowIconPrefab: {fileID: 7181941203817444372, guid: 4109e53ea2213fa40a2fb043838d011d, type: 3}
+  greenIconPrefab: {fileID: 1989994594732867433, guid: 6af911946f1e7e94eb610797cac99860, type: 3}
+  blueIconPrefab: {fileID: 9130309742642736928, guid: e9a2e4562d3510e4cb9361740cedda81, type: 3}

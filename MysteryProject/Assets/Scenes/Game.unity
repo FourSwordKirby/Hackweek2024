@@ -5996,6 +5996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a452a1696827e5e4fad0f8d355596f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hardMode: 0
   UserBins: []
   StashedPiles: []
   currentSelectedPileIndex: 0
@@ -6003,6 +6004,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCardAddedToPile:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFailedToAddCard:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &925828959
@@ -6020,7 +6024,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 8527870783150082194, guid: 811045863d6366345b239269f90eda4c, type: 3}
   gameManager: {fileID: 925828956}
   cardManager: {fileID: 925828958}
-  heldCardModel: {fileID: 6837057382836467872}
+  heldCardModel: {fileID: 284246623916353445}
   cardSpawnRotation: {x: 90, y: 0, z: -20}
   cardSpawnPositions:
   - {x: 4.79, y: 2, z: 6.67}
@@ -12296,9 +12300,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 811045863d6366345b239269f90eda4c, type: 3}
---- !u!114 &6837057382836467872 stripped
+--- !u!114 &284246623916353445 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9179942092477463604, guid: 811045863d6366345b239269f90eda4c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5641371873973216667, guid: 811045863d6366345b239269f90eda4c, type: 3}
   m_PrefabInstance: {fileID: 284246623916353444}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
