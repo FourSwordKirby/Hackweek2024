@@ -162,7 +162,7 @@ public class MersennePrimeCriteria : CardPileCriteria
             card.numberValue == 13 ||
             card.numberValue == 17 ||
             card.numberValue == 19 ||
-            card.numberValue == 31
+            card.numberValue == 31;
         // And so forth
     }
 }
