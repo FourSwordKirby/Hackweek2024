@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class CardManager : MonoBehaviour
 {
+    public bool hardMode = false;
     public CardPile MainDeck;
 
     public List<Bin> UserBins = new List<Bin>();
@@ -87,7 +88,15 @@ public class CardManager : MonoBehaviour
         UserBins[currentSelectedPileIndex].criteria = GenerateNewCriteria();
     }
 
-    private static CardPileCriteria[] CriteriaList = new CardPileCriteria[]
+    private static CardPileCriteria[] EasyCriteriaList = new CardPileCriteria[]
+    {
+        new IncrementWithDuplicatesCriteria(),
+        new DecrementWithDuplicatesCriteria(),
+        new SameColorAnyNumberOrderCriteria(),
+        new DiffierentColorCriteria(),
+    };
+
+    private static CardPileCriteria[] HardCriteriaList = new CardPileCriteria[]
     {
         new IncrementWithDuplicatesCriteria(),
         new DecrementWithDuplicatesCriteria(),
@@ -101,7 +110,10 @@ public class CardManager : MonoBehaviour
 
     private CardPileCriteria GenerateNewCriteria()
     {
-        return CardManager.CriteriaList[UnityEngine.Random.Range(0, CardManager.CriteriaList.Length)];
+        if (hardMode)
+            return HardCriteriaList[UnityEngine.Random.Range(0, HardCriteriaList.Length)];
+
+        return EasyCriteriaList[UnityEngine.Random.Range(0, EasyCriteriaList.Length)];
     }
 
     public void StashAllPiles()
