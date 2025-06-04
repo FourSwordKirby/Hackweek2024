@@ -78,12 +78,30 @@ public class CardManager : MonoBehaviour
 
     public void StashAndCreateNewUserPile()
     {
-        CardPile cardPileToStash = currentSelectedPile;
-        StashedPiles.Add(new GradedCardPile(currentSelectedCriteria, cardPileToStash));
-        UserBins[currentSelectedPileIndex].pile = new CardPile();
+        GradedCardPile cardPileToStash = UserBins[currentSelectedPileIndex].ProcessBin();
+        StashedPiles.Add(cardPileToStash);
 
-        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Count} cards.");
+        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.pile.Count} cards.");
         OnPileStashed?.Invoke(currentSelectedPileIndex);
+
+        UserBins[currentSelectedPileIndex].criteria = GenerateNewCriteria();
+    }
+
+    private static CardPileCriteria[] CriteriaList = new CardPileCriteria[]
+    {
+        new IncrementWithDuplicatesCriteria(),
+        new DecrementWithDuplicatesCriteria(),
+        new SameColorAnyNumberOrderCriteria(),
+        new DiffierentColorCriteria(),
+        new FibbonacciCriteria(),
+        new PrimeCriteria(),
+        new MersennePrimeCriteria(),
+        new PoliteCriteria(),
+    };
+
+    private CardPileCriteria GenerateNewCriteria()
+    {
+        return CardManager.CriteriaList[UnityEngine.Random.Range(0, CardManager.CriteriaList.Length)];
     }
 
     public void StashAllPiles()
@@ -93,9 +111,7 @@ public class CardManager : MonoBehaviour
             CardPile cardPileToStash = UserBins[i].pile;
             if (cardPileToStash.Count != 0)
             {
-                CardPileCriteria criteria = UserBins[i].criteria;
-                StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
-                UserBins[i].pile = new CardPile();
+                StashedPiles.Add(UserBins[i].ProcessBin());
             }
         }
     }
@@ -111,6 +127,13 @@ public class Bin
     {
         this.criteria = criteria;
         this.pile = new CardPile();
+    }
+
+    public GradedCardPile ProcessBin()
+    {
+        GradedCardPile gradedPile = new GradedCardPile(criteria, pile);
+        pile = new CardPile();
+        return gradedPile;
     }
 }
 
