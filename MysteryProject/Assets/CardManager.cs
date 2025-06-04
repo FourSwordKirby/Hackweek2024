@@ -91,7 +91,7 @@ public class CardManager : MonoBehaviour
         for (int i = 0; i < UserBins.Count; i++)
         {
             CardPile cardPileToStash = UserBins[i].pile;
-            if(cardPileToStash.Count != 0)
+            if (cardPileToStash.Count != 0)
             {
                 CardPileCriteria criteria = UserBins[i].criteria;
                 StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
@@ -173,13 +173,16 @@ public class CardPile
 
     public Card PeekTopCard()
     {
+        if (Cards.Count <= 0)
+            return null;
+
         Card DrawnCard = Cards[0];
         return DrawnCard;
     }
 
     public Card DrawBottomCard()
     {
-        Card DrawnCard = Cards[Cards.Count-1];
+        Card DrawnCard = Cards[Cards.Count - 1];
         Cards.RemoveAt(Cards.Count - 1);
         return DrawnCard;
     }

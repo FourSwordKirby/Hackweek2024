@@ -5886,7 +5886,19 @@ MonoBehaviour:
       m_Calls: []
   OnGameEnded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1106527494}
+        m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+        m_MethodName: OnGameEnded
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnGameStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5939,6 +5951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 8527870783150082194, guid: 811045863d6366345b239269f90eda4c, type: 3}
+  gameManager: {fileID: 925828956}
   cardManager: {fileID: 925828958}
   heldCardModel: {fileID: 6837057382836467872}
   cardSpawnRotation: {x: 90, y: 0, z: -20}
