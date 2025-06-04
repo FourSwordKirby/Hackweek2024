@@ -65,6 +65,9 @@ public class CardSpawnHandler : MonoBehaviour
 
     void OnPileStashed(int pileIndex)
     {
+        if (pileIndex > spawnedCards.Count - 1)
+            return;
+
         foreach (GameObject obj in spawnedCards[pileIndex])
         {
             obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-5f, 5f), 10 * spawnedCards[pileIndex].Count, Random.Range(-5f, 5f)), ForceMode.Impulse);
