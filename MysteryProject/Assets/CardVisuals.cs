@@ -17,12 +17,19 @@ public class CardVisuals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (baseCardInfo == null)
+        {
+            selfRenderer.enabled = false;
+            return;
+        }
+
+        selfRenderer.enabled = true;
         selfRenderer.material = baseCardInfo.suit switch
         {
-        CardSuit.Red => RedMaterial,
-        CardSuit.Yellow => YellowMaterial,
-        CardSuit.Green => GreenMaterial,
-        CardSuit.Blue => BlueMaterial
+            CardSuit.Red => RedMaterial,
+            CardSuit.Yellow => YellowMaterial,
+            CardSuit.Green => GreenMaterial,
+            CardSuit.Blue => BlueMaterial
         };
 
         TopNumber.text = baseCardInfo.numberValue.ToString();
