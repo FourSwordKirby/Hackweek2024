@@ -6,7 +6,6 @@ public class IconGenerator : MonoBehaviour
 {
     [Header("References")]
     public GameObject iconPrefab;
-    public TextMeshPro numberText;
 
     [Header("Icon Settings")]
     public float defaultScale = 0.4f;
@@ -16,33 +15,27 @@ public class IconGenerator : MonoBehaviour
     
     private Transform iconsParent;
 
-    void Start()
+    public void UpdateIconsFromNumber(int number)
     {
         Initialize();
-        UpdateIconsFromText();
+        ClearExistingIcons();
+        if (number == 0) return;
+        GenerateIcons(number);
     }
 
     private void Initialize()
     {
-        numberText = numberText ?? GetComponentInChildren<TextMeshPro>();
-        iconsParent = transform.Find("Icons") ?? CreateIconsParent();
-    }
-
-    public void UpdateIconsFromText()
-    {
-        ClearExistingIcons();
-        
-        if (!int.TryParse(numberText.text, out int number)) return;
-        if (number == 0) return;
-
-        GenerateIcons(number);
+        if (iconsParent == null)
+            iconsParent = transform.Find("Icons") ?? CreateIconsParent();
     }
 
     private Transform CreateIconsParent()
     {
         var parent = new GameObject("Icons").transform;
-        parent.SetParent(transform);
+       // parent.SetParent(transform);
         parent.localPosition = Vector3.zero;
+        parent.localRotation = Quaternion.identity;
+        parent.localScale = Vector3.one;
         return parent;
     }
 
