@@ -92,8 +92,101 @@ public class SameColorAnyNumberOrderCriteria : CardPileCriteria
 
         Card topCard = pile.PeekTopCard();
         
-        // True if the card being added is greater than or equal to the top card of the deck.
+        // True if the card being added is the same suit as the top card of the deck
         return card.suit == topCard.suit;
+    }
+}
+
+public class DiffierentColorCriteria : CardPileCriteria
+{
+    public override bool IsCardValid(CardPile pile, Card card)
+    {
+        // First get the last card in the pile.
+        // If no cards, card is auto valid.
+        if (pile.Count == 0)
+        {
+            return true;
+        }
+
+        Card topCard = pile.PeekTopCard();
+
+        // True if the card being added is NOT the same suit as the top card of the deck
+        return card.suit != topCard.suit;
+    }
+}
+
+public class FibbonacciCriteria : CardPileCriteria
+{
+    public override bool IsCardValid(CardPile pile, Card card)
+    {
+        Card[] currentPile = pile.PeekAllCards();
+        if (currentPile.Length < 2)
+        {
+            return true;
+        }
+        else
+        {
+            return (currentPile[currentPile.Length - 1].numberValue + currentPile[currentPile.Length - 2].numberValue) == card.numberValue;
+        }
+    }
+}
+
+public class PrimeCriteria : CardPileCriteria
+{
+    public override bool IsCardValid(CardPile pile, Card card)
+    {
+        return card.numberValue == 2 ||
+            card.numberValue == 3 ||
+            card.numberValue == 5 ||
+            card.numberValue == 7 ||
+            card.numberValue == 11 ||
+            card.numberValue == 13 ||
+            card.numberValue == 17 ||
+            card.numberValue == 19 ||
+            card.numberValue == 23 ||
+            card.numberValue == 29 ||
+            card.numberValue == 31 ||
+            card.numberValue == 37;
+        // And so forth
+    }
+}
+
+public class MersennePrimeCriteria : CardPileCriteria
+{
+    public override bool IsCardValid(CardPile pile, Card card)
+    {
+        return card.numberValue == 2 ||
+            card.numberValue == 3 ||
+            card.numberValue == 5 ||
+            card.numberValue == 7 ||
+            card.numberValue == 13 ||
+            card.numberValue == 17 ||
+            card.numberValue == 19 ||
+            card.numberValue == 31;
+        // And so forth
+    }
+}
+
+/// <summary>
+/// https://en.wikipedia.org/wiki/Polite_number
+/// </summary>
+public class PoliteCriteria : CardPileCriteria
+{
+        public override bool IsCardValid(CardPile pile, Card card)
+        {
+            return card.numberValue == 3 ||
+                card.numberValue == 5 ||
+                card.numberValue == 6 ||
+                card.numberValue == 7 ||
+                card.numberValue == 9 ||
+                card.numberValue == 10 ||
+                card.numberValue == 11 ||
+                card.numberValue == 12 ||
+                card.numberValue == 13 ||
+                card.numberValue == 14 ||
+                card.numberValue == 15 ||
+                card.numberValue == 17;
+            // And so forth
     }
 }
 

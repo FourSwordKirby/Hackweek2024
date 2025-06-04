@@ -78,12 +78,30 @@ public class CardManager : MonoBehaviour
 
     public void StashAndCreateNewUserPile()
     {
-        CardPile cardPileToStash = currentSelectedPile;
-        StashedPiles.Add(new GradedCardPile(currentSelectedCriteria, cardPileToStash));
-        UserBins[currentSelectedPileIndex].pile = new CardPile();
+        GradedCardPile cardPileToStash = UserBins[currentSelectedPileIndex].ProcessBin();
+        StashedPiles.Add(cardPileToStash);
 
-        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.Count} cards.");
+        Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.pile.Count} cards.");
         OnPileStashed?.Invoke(currentSelectedPileIndex);
+
+        UserBins[currentSelectedPileIndex].criteria = GenerateNewCriteria();
+    }
+
+    private static CardPileCriteria[] CriteriaList = new CardPileCriteria[]
+    {
+        new IncrementWithDuplicatesCriteria(),
+        new DecrementWithDuplicatesCriteria(),
+        new SameColorAnyNumberOrderCriteria(),
+        new DiffierentColorCriteria(),
+        new FibbonacciCriteria(),
+        new PrimeCriteria(),
+        new MersennePrimeCriteria(),
+        new PoliteCriteria(),
+    };
+
+    private CardPileCriteria GenerateNewCriteria()
+    {
+        return CardManager.CriteriaList[UnityEngine.Random.Range(0, CardManager.CriteriaList.Length)];
     }
 
     public void StashAllPiles()
@@ -91,11 +109,9 @@ public class CardManager : MonoBehaviour
         for (int i = 0; i < UserBins.Count; i++)
         {
             CardPile cardPileToStash = UserBins[i].pile;
-            if(cardPileToStash.Count != 0)
+            if (cardPileToStash.Count != 0)
             {
-                CardPileCriteria criteria = UserBins[i].criteria;
-                StashedPiles.Add(new GradedCardPile(criteria, cardPileToStash));
-                UserBins[i].pile = new CardPile();
+                StashedPiles.Add(UserBins[i].ProcessBin());
             }
         }
     }
@@ -111,6 +127,13 @@ public class Bin
     {
         this.criteria = criteria;
         this.pile = new CardPile();
+    }
+
+    public GradedCardPile ProcessBin()
+    {
+        GradedCardPile gradedPile = new GradedCardPile(criteria, pile);
+        pile = new CardPile();
+        return gradedPile;
     }
 }
 
@@ -164,6 +187,14 @@ public class CardPile
         }
     }
 
+    /// <summary>
+    /// Returns a copy of the current pile of cards in order for the user to inspect
+    /// </summary>
+    public Card[] PeekAllCards()
+    {
+        return Cards.ToArray();
+    }
+
     public Card DrawTopCard()
     {
         Card DrawnCard = Cards[0];
@@ -173,13 +204,16 @@ public class CardPile
 
     public Card PeekTopCard()
     {
+        if (Cards.Count <= 0)
+            return null;
+
         Card DrawnCard = Cards[0];
         return DrawnCard;
     }
 
     public Card DrawBottomCard()
     {
-        Card DrawnCard = Cards[Cards.Count-1];
+        Card DrawnCard = Cards[Cards.Count - 1];
         Cards.RemoveAt(Cards.Count - 1);
         return DrawnCard;
     }
