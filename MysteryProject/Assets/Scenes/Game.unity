@@ -1575,6 +1575,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4661435515762813124, guid: e289bf5debb17f6459818c207d781953, type: 3}
   m_PrefabInstance: {fileID: 129996855}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &156457114
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.14436
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.91102
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.56273
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636212242608724781, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131169602814129421, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_SceneBindings.Array.data[0].value
+      value: 
+      objectReference: {fileID: 1136385246}
+    - target: {fileID: 6131169602814129421, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_SceneBindings.Array.data[1].value
+      value: 
+      objectReference: {fileID: 1540101498}
+    - target: {fileID: 6131169602814129421, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].value
+      value: 
+      objectReference: {fileID: 202492827}
+    - target: {fileID: 8230857750224848844, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
+      propertyPath: m_Name
+      value: Video Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28177ee15bdaf4ddb821fe62cc30b4cb, type: 3}
 --- !u!1001 &184074057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1879,6 +1948,7 @@ GameObject:
   - component: {fileID: 202492826}
   - component: {fileID: 202492825}
   - component: {fileID: 202492824}
+  - component: {fileID: 202492827}
   m_Layer: 0
   m_Name: Camera3
   m_TagString: MainCamera
@@ -2004,6 +2074,28 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!95 &202492827
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202492822}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &203554688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7444,6 +7536,7 @@ GameObject:
   - component: {fileID: 1136385241}
   - component: {fileID: 1136385244}
   - component: {fileID: 1136385245}
+  - component: {fileID: 1136385246}
   m_Layer: 0
   m_Name: Camera1
   m_TagString: MainCamera
@@ -7592,6 +7685,28 @@ MonoBehaviour:
     target: {fileID: 1050480556}
   positionLerpSpeed: 5
   rotationLerpSpeed: 5
+--- !u!95 &1136385246
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136385240}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1169526276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2072840835142511554, guid: 811045863d6366345b239269f90eda4c, type: 3}
@@ -9712,6 +9827,7 @@ GameObject:
   - component: {fileID: 1540101497}
   - component: {fileID: 1540101496}
   - component: {fileID: 1540101494}
+  - component: {fileID: 1540101498}
   m_Layer: 0
   m_Name: Camera2
   m_TagString: MainCamera
@@ -9837,6 +9953,28 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!95 &1540101498
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540101492}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1547990152
 GameObject:
   m_ObjectHideFlags: 0
@@ -13082,3 +13220,4 @@ SceneRoots:
   - {fileID: 2577046055208620660}
   - {fileID: 935463280}
   - {fileID: 1244357962}
+  - {fileID: 156457114}
