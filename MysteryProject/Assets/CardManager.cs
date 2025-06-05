@@ -64,6 +64,11 @@ public class CardManager : MonoBehaviour
         UserBins.Add(new Bin(new DecrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
         
+        for (int index = 0; index < UserBins.Count; index++)
+        {
+            OnPileCreated?.Invoke(index, CriteriaTypeTable[UserBins[index].criteria.GetType()]);
+        }
+        
         comboTrackers.Add(new NumberIncreasingCombo());
         comboTrackers.Add(new NumberDecreasingCombo());
         comboTrackers.Add(new SuitCombo());
@@ -83,12 +88,9 @@ public class CardManager : MonoBehaviour
                 {
                     comboTracker.Reset();
                 }
+
                 OnComboTimeout?.Invoke();
             }
-
-        for (int index = 0; index < UserBins.Count; index++)
-        {
-            OnPileCreated?.Invoke(index, CriteriaTypeTable[UserBins[index].criteria.GetType()]);
         }
     }
 
