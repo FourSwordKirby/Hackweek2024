@@ -23,7 +23,6 @@ public class CardManager : MonoBehaviour
     public UnityEvent<int> OnPileStashed = new UnityEvent<int>();
     public UnityEvent<int> OnCardAddedToPile = new UnityEvent<int>();
     public UnityEvent<int> OnInvalidCard = new();
-    public UnityEvent OnFailedToAddCard = new ();
 
     public static CardManager instance;
 
@@ -87,7 +86,6 @@ public class CardManager : MonoBehaviour
                 Card peekedPileCard = currentSelectedPile.PeekTopCard();
                 Debug.LogError($"Can't add {peekedCard.numberValue} to pile. ({peekedCard.numberValue} < {peekedPileCard.numberValue})");
                 OnInvalidCard?.Invoke(currentSelectedPileIndex);
-                OnFailedToAddCard?.Invoke();
                 return;
             }
         }

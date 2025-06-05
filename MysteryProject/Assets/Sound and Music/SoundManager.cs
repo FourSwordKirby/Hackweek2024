@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour
 
         CardManager.instance.OnCardAddedToPile.AddListener(OnCardAddedToPile);
         CardManager.instance.OnPileStashed.AddListener(OnPileStashed);
-        CardManager.instance.OnFailedToAddCard.AddListener(OnFailedToAddCard);
+        CardManager.instance.OnInvalidCard.AddListener(OnFailedToAddCard);
     }
 
     void OnDestroy()
@@ -45,7 +45,7 @@ public class SoundManager : MonoBehaviour
 
         CardManager.instance.OnCardAddedToPile.AddListener(OnCardAddedToPile);
         CardManager.instance.OnPileStashed.AddListener(OnPileStashed);
-        CardManager.instance.OnFailedToAddCard.AddListener(OnFailedToAddCard);
+        CardManager.instance.OnInvalidCard.AddListener(OnFailedToAddCard);
     }
 
     private void OnCardAddedToPile(int arg0)
@@ -58,7 +58,7 @@ public class SoundManager : MonoBehaviour
         m_pileStashedAudioSource.Play();
     }
 
-    private void OnFailedToAddCard()
+    private void OnFailedToAddCard(int arg0)
     {
         m_wrongPileAudioSource.Play();
     }
