@@ -12,14 +12,14 @@ public class GameManager : MonoBehaviour
     public GameManagerState CurrentState = GameManagerState.NotStarted;
     GameManagerState previousState = GameManagerState.NotStarted;
 
-    public UnityEngine.InputSystem.Controls.KeyControl PauseButton = Keyboard.current?.pKey;
-    public UnityEngine.InputSystem.Controls.KeyControl ResetButton = Keyboard.current?.rKey;
+    public InputAction PauseButton;
+    public InputAction ResetButton;// = Keyboard.current?.rKey;
 
-    public UnityEngine.InputSystem.Controls.KeyControl previousPile = Keyboard.current?.leftArrowKey;
-    public UnityEngine.InputSystem.Controls.KeyControl nextPile = Keyboard.current?.rightArrowKey;
+    public InputAction previousPile;// = Keyboard.current?.leftArrowKey;
+    public InputAction nextPile;// = Keyboard.current?.rightArrowKey;
 
-    public UnityEngine.InputSystem.Controls.KeyControl stashAndCreateNewUserPile = Keyboard.current?.enterKey;
-    public UnityEngine.InputSystem.Controls.KeyControl addCardToCurrentPile = Keyboard.current?.spaceKey;
+    public InputAction stashAndCreateNewUserPile;// = Keyboard.current?.enterKey;
+    public InputAction addCardToCurrentPile;// = Keyboard.current?.spaceKey;
 
     public UnityEvent OnGameStarted = new UnityEvent();
     public UnityEvent OnGamePaused = new UnityEvent();
@@ -37,6 +37,13 @@ public class GameManager : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        PauseButton.Enable();
+        ResetButton.Enable();
+        previousPile.Enable();
+        nextPile.Enable();
+        stashAndCreateNewUserPile.Enable();
+        addCardToCurrentPile.Enable();
     }
 
     // Update is called once per frame
@@ -48,35 +55,38 @@ public class GameManager : MonoBehaviour
             previousState = CurrentState;
         }
 
+        if (Keyboard.current == null)
+            return;
+
         switch (CurrentState)
         {
             case GameManagerState.NotStarted:
-                if (PauseButton.wasPressedThisFrame)
+                if (PauseButton.WasPerformedThisFrame())
                 {
                     CurrentState = GameManagerState.Running;
                     OnGameStarted?.Invoke();
                 }
                 return;
             case GameManagerState.Running:
-                if (PauseButton.wasPressedThisFrame)
+                if (PauseButton.WasPerformedThisFrame())
                 {
                     CurrentState = GameManagerState.Paused;
                     OnGamePaused?.Invoke();
                 }
                 break;
             case GameManagerState.Paused:
-                if (PauseButton.wasPressedThisFrame)
+                if (PauseButton.WasPerformedThisFrame())
                 {
                     CurrentState = GameManagerState.Running;
                     OnGameResumed?.Invoke();
                 }
-                else if (ResetButton.wasPressedThisFrame)
+                else if (ResetButton.WasPerformedThisFrame())
                 {
                     ResetGame();
                 }
                 return;
             case GameManagerState.Ended:
-                if (ResetButton.wasPressedThisFrame)
+                if (ResetButton.WasPerformedThisFrame())
                     ResetGame();
                 return;
         }
@@ -89,13 +99,13 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (previousPile.wasPressedThisFrame)
+        if (previousPile.WasPerformedThisFrame())
             CardManager.instance.SelectPreviousPile();
-        else if (nextPile.wasPressedThisFrame)
+        else if (nextPile.WasPerformedThisFrame())
             CardManager.instance.SelectNextPile();
-        else if (addCardToCurrentPile.wasPressedThisFrame)
+        else if (addCardToCurrentPile.WasPerformedThisFrame())
             CardManager.instance.TryAddCardToCurrentPile();
-        else if (stashAndCreateNewUserPile.wasPressedThisFrame)
+        else if (stashAndCreateNewUserPile.WasPerformedThisFrame())
             CardManager.instance.StashAndCreateNewUserPile();
     }
 

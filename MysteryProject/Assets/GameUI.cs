@@ -19,15 +19,15 @@ public class GameUI : MonoBehaviour
     {
         if (GameManager.instance.CurrentState == GameManager.GameManagerState.NotStarted)
         {
-            timeRemaining.SetText($"Press <b>{GameManager.instance.PauseButton.displayName}</b> to start!");
+            timeRemaining.SetText($"Press <b>{GameManager.instance.PauseButton.bindings[0].ToDisplayString()}</b> to start!");
             return;
         }
         else if (GameManager.instance.CurrentState == GameManager.GameManagerState.Paused)
         {
             timeRemaining.SetText($"Paused!\n"
                                 + $"Time Remaining: {GameManager.instance.TimeRemaining:00.00}\n"
-                                + $"Press <b>{GameManager.instance.PauseButton.displayName}</b> to resume.\n"
-                                + $"Press <b>{GameManager.instance.ResetButton.displayName}</b> to reset.");
+                                + $"Press <b>{GameManager.instance.PauseButton.bindings[0].ToDisplayString()}</b> to resume.\n"
+                                + $"Press <b>{GameManager.instance.ResetButton.bindings[0].ToDisplayString()}</b> to reset.");
         }
         else if (GameManager.instance.CurrentState == GameManager.GameManagerState.Running)
         {

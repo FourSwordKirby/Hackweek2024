@@ -6008,6 +6008,124 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeRemaining: 10
   CurrentState: 0
+  PauseButton:
+    m_Name: Pause Button
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b830a706-b5ad-43fb-9d5e-081ea13a20ac
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 586eb52e-b5e9-411d-b77d-1bb21d3f0913
+      m_Path: <Keyboard>/p
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pause Button
+      m_Flags: 0
+    m_Flags: 0
+  ResetButton:
+    m_Name: Reset Button
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 39422f0e-316b-4df0-9876-c0b9ed86223c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d8bb41f6-0f7d-4b4a-b0d7-a2a3cad8c5a5
+      m_Path: <Keyboard>/r
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Reset Button
+      m_Flags: 0
+    m_Flags: 0
+  previousPile:
+    m_Name: Previous Pile
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 05b698a2-6d38-4f05-85d4-b63453588db0
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 52893a8e-53d7-44ca-8425-2b4c5d57b684
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Previous Pile
+      m_Flags: 0
+    - m_Name: 
+      m_Id: b02db2e7-08b1-4f70-80a8-7ed4448ad57e
+      m_Path: <Keyboard>/leftArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Previous Pile
+      m_Flags: 0
+    m_Flags: 0
+  nextPile:
+    m_Name: Next Pile
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8a87137a-c814-45a8-84be-d4631087f412
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 3e7f9907-2ef7-4d7e-8f70-a7dd0f71f31a
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Next Pile
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 669c0cab-5104-46a1-9dae-3ca0ab6df9b8
+      m_Path: <Keyboard>/rightArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Next Pile
+      m_Flags: 0
+    m_Flags: 0
+  stashAndCreateNewUserPile:
+    m_Name: Stash And Create New User Pile
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 93d64d93-5ccf-4ddb-8847-2798e0a7dcd2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: aeb137f9-90d9-4920-852f-d597aba81f13
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Stash And Create New User Pile
+      m_Flags: 0
+    m_Flags: 0
+  addCardToCurrentPile:
+    m_Name: Add Card To Current Pile
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: af91da92-275d-4de8-bb0f-4b7617eeccbf
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 621412d4-583f-4eda-a626-1b55d1f0c048
+      m_Path: <Keyboard>/enter
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Add Card To Current Pile
+      m_Flags: 0
+    m_Flags: 0
   OnGameStarted:
     m_PersistentCalls:
       m_Calls: []

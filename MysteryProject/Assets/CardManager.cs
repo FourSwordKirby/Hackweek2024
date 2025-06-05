@@ -107,7 +107,7 @@ public class CardManager : MonoBehaviour
             if (!currentSelectedCriteria.IsCardValid(currentSelectedPile, peekedCard))
             {
                 Card peekedPileCard = currentSelectedPile.PeekTopCard();
-                Debug.LogError($"Can't add {peekedCard.numberValue} to pile. ({peekedCard.numberValue} < {peekedPileCard.numberValue})");
+                Debug.LogWarning($"Can't add {peekedCard.numberValue} to pile. ({peekedCard.numberValue} < {peekedPileCard.numberValue})");
                 OnInvalidCard?.Invoke(currentSelectedPileIndex);
                 return;
             }
