@@ -5,26 +5,26 @@ public class BoxSpawnHandler : MonoBehaviour
 {
     [SerializeField] Vector3[] boxSpawnPositions;
     [SerializeField] Vector3[] boxSpawnRotations;
-    
+
     [SerializeField] GameObject incrementBoxPrefab;
-    
+
     [SerializeField] GameManager gameManager;
     [SerializeField] CardManager cardManager;
-    
+
     List<GameObject> spawnedBoxes = new();
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
+
     void OnEnable()
     {
         gameManager.OnGameStarted.AddListener(OnGameStarted);
@@ -40,7 +40,7 @@ public class BoxSpawnHandler : MonoBehaviour
         cardManager.OnPileCreated.RemoveListener(SpawnBox);
         cardManager.OnPileStashed.RemoveListener(StashBox);
     }
-    
+
     void OnGameStarted()
     {
     }
@@ -58,12 +58,12 @@ public class BoxSpawnHandler : MonoBehaviour
         Destroy(obj, 1);
         spawnedBoxes[pileIndex] = null;
     }
-    
+
     void SpawnBox(int pileIndex, CriteriaType criteriaType)
     {
         // Won't always be the incrementBoxPrefab. Have method to go from CriteriaType->Prefab.
         GameObject boxVisual = Instantiate(
-            incrementBoxPrefab, 
+            incrementBoxPrefab,
             boxSpawnPositions[pileIndex],
             Quaternion.Euler(boxSpawnRotations[pileIndex]));
 
@@ -75,5 +75,19 @@ public class BoxSpawnHandler : MonoBehaviour
         {
             spawnedBoxes[pileIndex] = boxVisual;
         }
+    }
+
+    public Vector3 GetBoxPosition(int pileIndex)
+    {
+        if (pileIndex < 0 || pileIndex >= boxSpawnPositions.Length)
+            return Vector3.zero;
+        return boxSpawnPositions[pileIndex];
+    }
+
+    public Vector3 GetBoxRotation(int pileIndex)
+    {
+        if (pileIndex < 0 || pileIndex >= boxSpawnRotations.Length)
+            return Vector3.zero;
+        return boxSpawnRotations[pileIndex];
     }
 }
