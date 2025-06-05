@@ -6,26 +6,26 @@ public class BoxSpawnHandler : MonoBehaviour
 {
     [SerializeField] Vector3[] boxSpawnPositions;
     [SerializeField] Vector3[] boxSpawnRotations;
-    
+
     [SerializeField] GameObject incrementBoxPrefab;
-    
+
     [SerializeField] GameManager gameManager;
     [SerializeField] CardManager cardManager;
-    
+
     List<GameObject> spawnedBoxes = new();
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
+
     void OnEnable()
     {
         gameManager.OnGameStarted.AddListener(OnGameStarted);
@@ -41,7 +41,7 @@ public class BoxSpawnHandler : MonoBehaviour
         cardManager.OnPileCreated.RemoveListener(SpawnBox);
         cardManager.OnPileStashed.RemoveListener(StashBox);
     }
-    
+
     void OnGameStarted()
     {
     }
@@ -66,7 +66,7 @@ public class BoxSpawnHandler : MonoBehaviour
         // Give the object to a Coroutine to animate and destroy.
         
     }
-    
+
     void SpawnBox(int pileIndex, CriteriaType criteriaType)
     {
         /*
@@ -110,5 +110,19 @@ public class BoxSpawnHandler : MonoBehaviour
         }
 
         yield return new WaitForEndOfFrame();
+    }
+
+    public Vector3 GetBoxPosition(int pileIndex)
+    {
+        if (pileIndex < 0 || pileIndex >= boxSpawnPositions.Length)
+            return Vector3.zero;
+        return boxSpawnPositions[pileIndex];
+    }
+
+    public Vector3 GetBoxRotation(int pileIndex)
+    {
+        if (pileIndex < 0 || pileIndex >= boxSpawnRotations.Length)
+            return Vector3.zero;
+        return boxSpawnRotations[pileIndex];
     }
 }
