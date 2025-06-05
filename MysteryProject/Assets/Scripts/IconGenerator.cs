@@ -13,7 +13,7 @@ public class IconGenerator : MonoBehaviour
     public float largeScale = 0.9f;
     public float singleScale = 1f;
     
-    private Transform iconsParent;
+    private Transform iconsObj;
 
     public void UpdateIconsFromNumber(int number)
     {
@@ -25,23 +25,23 @@ public class IconGenerator : MonoBehaviour
 
     private void Initialize()
     {
-        if (iconsParent == null)
-            iconsParent = transform.Find("Icons") ?? CreateIconsParent();
+        if (iconsObj == null)
+            iconsObj = transform.Find("Icons") ?? CreateIconsChild();
     }
 
-    private Transform CreateIconsParent()
+    private Transform CreateIconsChild()
     {
-        var parent = new GameObject("Icons").transform;
-       // parent.SetParent(transform);
-        parent.localPosition = Vector3.zero;
-        parent.localRotation = Quaternion.identity;
-        parent.localScale = Vector3.one;
-        return parent;
+        var icon = new GameObject("Icons").transform;
+        icon.SetParent(transform);
+        icon.localPosition = Vector3.zero;
+        icon.localRotation = Quaternion.identity;
+        icon.localScale = Vector3.one;
+        return icon;
     }
 
     private void ClearExistingIcons()
     {
-        foreach (Transform child in iconsParent)
+        foreach (Transform child in iconsObj)
             Destroy(child.gameObject);
     }
 
@@ -57,7 +57,7 @@ public class IconGenerator : MonoBehaviour
 
     private void CreateIcon(Vector3 position, Vector3 scale)
     {
-        var icon = Instantiate(iconPrefab, iconsParent);
+        var icon = Instantiate(iconPrefab, iconsObj);
         icon.transform.localPosition = position;
         icon.transform.localScale = scale;
         icon.transform.localRotation = Quaternion.identity;
