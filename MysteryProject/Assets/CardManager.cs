@@ -33,7 +33,7 @@ public class CardManager : MonoBehaviour
 
     public UnityEvent<int> OnPileStashed = new UnityEvent<int>();
     public UnityEvent<int> OnCardAddedToPile = new UnityEvent<int>();
-    public UnityEvent<int, CriteriaType> OnPileCreated = new UnityEvent<int, CriteriaType>();
+    public UnityEvent<int, CardPileCriteria> OnPileCreated = new UnityEvent<int, CardPileCriteria>();
     public UnityEvent<int> OnInvalidCard = new();
 
     public static CardManager instance;
@@ -66,7 +66,7 @@ public class CardManager : MonoBehaviour
         
         for (int index = 0; index < UserBins.Count; index++)
         {
-            OnPileCreated?.Invoke(index, CriteriaTypeTable[UserBins[index].criteria.GetType()]);
+            OnPileCreated?.Invoke(index, UserBins[index].criteria);
         }
         
         comboTrackers.Add(new NumberIncreasingCombo());
@@ -147,7 +147,7 @@ public class CardManager : MonoBehaviour
         CardPileCriteria newCriteria = GenerateNewCriteria();
         UserBins[currentSelectedPileIndex].criteria = newCriteria;
         // New event for creating a new bin.
-        OnPileCreated?.Invoke(currentSelectedPileIndex, CriteriaTypeTable[newCriteria.GetType()]);
+        OnPileCreated?.Invoke(currentSelectedPileIndex, newCriteria);
     }
 
     

@@ -58,7 +58,7 @@ public class IncrementWithDuplicatesCriteria : CardPileCriteria
 
     public override string CriteriaDescriptor()
     {
-        return "Increment with Duplicates";
+        return "Increment";
     }
 }
 
@@ -80,13 +80,13 @@ public class DecrementWithDuplicatesCriteria : CardPileCriteria
     }
     public override string CriteriaDescriptor()
     {
-        return "Decrement with Duplicates";
+        return "Decrement";
     }
 }
 
 public class SameColorAnyNumberOrderCriteria : CardPileCriteria
 {
-    public override string ToString() => "Same Color Any Number Order";
+    public override string ToString() => "Same Color";
     
     public override bool IsCardValid(CardPile pile, Card card)
     {
@@ -104,7 +104,7 @@ public class SameColorAnyNumberOrderCriteria : CardPileCriteria
     }
     public override string CriteriaDescriptor()
     {
-        return "Cards with the same color";
+        return "Same Color";
     }
 }
 
@@ -127,7 +127,7 @@ public class DiffierentColorCriteria : CardPileCriteria
 
     public override string CriteriaDescriptor()
     {
-        return "Cards with the different colors";
+        return "Different Color";
     }
 }
 
@@ -148,7 +148,7 @@ public class FibbonacciCriteria : CardPileCriteria
 
     public override string CriteriaDescriptor()
     {
-        return "Cards in a Fibonacci Sequence";
+        return "Fibonacci Sequence";
     }
 }
 
@@ -173,7 +173,7 @@ public class PrimeCriteria : CardPileCriteria
 
     public override string CriteriaDescriptor()
     {
-        return "Cards with the Prime number values";
+        return "Primes";
     }
 }
 
@@ -194,7 +194,7 @@ public class MersennePrimeCriteria : CardPileCriteria
 
     public override string CriteriaDescriptor()
     {
-        return "Cards with the Mersenne Prime number values";
+        return "Mersenne Primes";
     }
 }
 
@@ -222,7 +222,7 @@ public class PoliteCriteria : CardPileCriteria
 
     public override string CriteriaDescriptor()
     {
-        return "Cards with the Polite number values";
+        return "Polite Numbers";
     }
 }
 

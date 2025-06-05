@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BoxSpawnHandler : MonoBehaviour
@@ -67,7 +68,7 @@ public class BoxSpawnHandler : MonoBehaviour
         
     }
 
-    void SpawnBox(int pileIndex, CriteriaType criteriaType)
+    void SpawnBox(int pileIndex, CardPileCriteria criteria)
     {
         /*
         Debug.Log("SpawnBox");
@@ -87,10 +88,10 @@ public class BoxSpawnHandler : MonoBehaviour
         }
         */
 
-        StartCoroutine(DelaySpawnBox(pileIndex, criteriaType));
+        StartCoroutine(DelaySpawnBox(pileIndex, criteria));
     }
     
-    IEnumerator DelaySpawnBox(int pileIndex, CriteriaType criteriaType)
+    IEnumerator DelaySpawnBox(int pileIndex, CardPileCriteria criteria)
     {
         yield return new WaitForSeconds(0.1f);
         Debug.Log("SpawnBox");
@@ -99,6 +100,8 @@ public class BoxSpawnHandler : MonoBehaviour
             incrementBoxPrefab,
             boxSpawnPositions[pileIndex],
             Quaternion.Euler(boxSpawnRotations[pileIndex]));
+
+        boxVisual.GetComponentInChildren<TextMeshPro>().text = criteria.CriteriaDescriptor();
 
         if (pileIndex >= spawnedBoxes.Count)
         {
