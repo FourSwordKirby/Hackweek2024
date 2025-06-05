@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -19,9 +21,18 @@ public class CardManager : MonoBehaviour
 
     public UnityEvent<int> OnPileStashed = new UnityEvent<int>();
     public UnityEvent<int> OnCardAddedToPile = new UnityEvent<int>();
-    public UnityEvent OnFailedToAddCard = new ();
+    public UnityEvent OnFailedToAddCard = new();
 
     public static CardManager instance;
+
+    private bool m_comboInProgress = false;
+    private float m_currentComboTimeout = 0.0f;
+    public float comboTimeout = 1.0f;
+    private readonly List<ComboTracker> comboTrackers = new();
+    [HideInInspector]
+    public UnityEvent<IEnumerable<ComboTracker>> OnComboCompleted = new();
+    [HideInInspector]
+    public UnityEvent OnComboTimeout = new();
 
     private void Awake()
     {
@@ -39,6 +50,29 @@ public class CardManager : MonoBehaviour
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new DecrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
+
+        comboTrackers.Add(new NumberIncreasingCombo());
+        comboTrackers.Add(new NumberDecreasingCombo());
+        comboTrackers.Add(new SuitCombo());
+        comboTrackers.Add(new SameNumberCombo());
+    }
+
+    public void LateUpdate()
+    {
+        if (m_comboInProgress)
+        {
+            m_currentComboTimeout -= Time.deltaTime;
+            if (m_currentComboTimeout <= 0)
+            {
+                m_currentComboTimeout = 0;
+                m_comboInProgress = false;
+                foreach (var comboTracker in comboTrackers)
+                {
+                    comboTracker.Reset();
+                }
+                OnComboTimeout?.Invoke();
+            }
+        }
     }
 
     public void TryAddCardToCurrentPile()
@@ -57,6 +91,8 @@ public class CardManager : MonoBehaviour
 
         Card drawnCard = MainDeck.DrawTopCard();
         currentSelectedPile.PlaceCardOnTop(drawnCard);
+
+        CheckForCombos();
 
         Debug.Log($"Added {drawnCard.officialName} to pile {currentSelectedPileIndex}.");
         OnCardAddedToPile?.Invoke(currentSelectedPileIndex);
@@ -114,6 +150,27 @@ public class CardManager : MonoBehaviour
             if (cardPileToStash.Count != 0)
             {
                 StashedPiles.Add(UserBins[i].ProcessBin());
+            }
+        }
+    }
+
+    private void CheckForCombos()
+    {
+        if (currentSelectedPile.Count > 1) // Only check for combos if there are cards to compare against
+        {
+            List<ComboTracker> successfulCombos = new();
+            foreach (var comboTracker in comboTrackers)
+            {
+                if (comboTracker.TryIncreaseCombo(currentSelectedPile))
+                {
+                    successfulCombos.Add(comboTracker);
+                }
+            }
+            if (successfulCombos.Any())
+            {
+                m_comboInProgress = true;
+                m_currentComboTimeout = comboTimeout;
+                OnComboCompleted?.Invoke(successfulCombos);
             }
         }
     }
