@@ -6004,7 +6004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7314b83a91aebb746ae99cac7140f04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeRemaining: 5
+  TimeRemaining: 30
   CurrentState: 0
   OnGameStarted:
     m_PersistentCalls:

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,19 +52,28 @@ public class BoxSpawnHandler : MonoBehaviour
 
     void StashBox(int pileIndex)
     {
+        Debug.Log("StashBox");
         // Sometimes this is null. Need to make sure the game manager is always adding additional boxes
         // After unpausing the game.
         GameObject obj = spawnedBoxes[pileIndex];
-        obj.transform.GetChild(0).GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-5f, 5f), 10 * 100, Random.Range(-5f, 5f)), ForceMode.Impulse);
+        obj.transform.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
+        obj.transform.GetChild(0).GetComponent<Rigidbody>().AddForce(new Vector3(0, 4 * 100, 0));
+        obj.transform.GetChild(0).GetComponent<Rigidbody>().AddTorque(new Vector3(0, 300, 0));
+
         Destroy(obj, 1);
         spawnedBoxes[pileIndex] = null;
+        
+        // Give the object to a Coroutine to animate and destroy.
+        
     }
     
     void SpawnBox(int pileIndex, CriteriaType criteriaType)
     {
+        /*
+        Debug.Log("SpawnBox");
         // Won't always be the incrementBoxPrefab. Have method to go from CriteriaType->Prefab.
         GameObject boxVisual = Instantiate(
-            incrementBoxPrefab, 
+            incrementBoxPrefab,
             boxSpawnPositions[pileIndex],
             Quaternion.Euler(boxSpawnRotations[pileIndex]));
 
@@ -75,5 +85,30 @@ public class BoxSpawnHandler : MonoBehaviour
         {
             spawnedBoxes[pileIndex] = boxVisual;
         }
+        */
+
+        StartCoroutine(DelaySpawnBox(pileIndex, criteriaType));
+    }
+    
+    IEnumerator DelaySpawnBox(int pileIndex, CriteriaType criteriaType)
+    {
+        yield return new WaitForSeconds(0.1f);
+        Debug.Log("SpawnBox");
+        // Won't always be the incrementBoxPrefab. Have method to go from CriteriaType->Prefab.
+        GameObject boxVisual = Instantiate(
+            incrementBoxPrefab,
+            boxSpawnPositions[pileIndex],
+            Quaternion.Euler(boxSpawnRotations[pileIndex]));
+
+        if (pileIndex >= spawnedBoxes.Count)
+        {
+            spawnedBoxes.Add(boxVisual);
+        }
+        else
+        {
+            spawnedBoxes[pileIndex] = boxVisual;
+        }
+
+        yield return new WaitForEndOfFrame();
     }
 }
