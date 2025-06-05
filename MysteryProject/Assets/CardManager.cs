@@ -5,6 +5,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+public enum CriteriaType
+{
+    Increment,
+    Decrement,
+    SameColor,
+    DifferentColor,
+    Fibonacci,
+    Prime,
+    MersennePrime,
+    Polite
+};
 
 public class CardManager : MonoBehaviour
 {
@@ -20,6 +31,7 @@ public class CardManager : MonoBehaviour
 
     public UnityEvent<int> OnPileStashed = new UnityEvent<int>();
     public UnityEvent<int> OnCardAddedToPile = new UnityEvent<int>();
+    public UnityEvent<int, CriteriaType> OnPileCreated = new UnityEvent<int, CriteriaType>();
     public UnityEvent OnFailedToAddCard = new ();
 
     public static CardManager instance;
@@ -40,6 +52,11 @@ public class CardManager : MonoBehaviour
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new DecrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
+
+        for (int index = 0; index < UserBins.Count; index++)
+        {
+            OnPileCreated?.Invoke(index, CriteriaTypeTable[UserBins[index].criteria.GetType()]);
+        }
     }
 
     public void TryAddCardToCurrentPile()
@@ -90,8 +107,25 @@ public class CardManager : MonoBehaviour
         Debug.Log($"Stashed pile {currentSelectedPileIndex} with {cardPileToStash.pile.Count} cards.");
         OnPileStashed?.Invoke(currentSelectedPileIndex);
 
-        UserBins[currentSelectedPileIndex].criteria = GenerateNewCriteria();
+        CardPileCriteria newCriteria = GenerateNewCriteria();
+        UserBins[currentSelectedPileIndex].criteria = newCriteria;
+        // New event for creating a new bin.
+        OnPileCreated?.Invoke(currentSelectedPileIndex, CriteriaTypeTable[newCriteria.GetType()]);
     }
+
+    
+
+    public static Dictionary<System.Type, CriteriaType> CriteriaTypeTable = new Dictionary<Type, CriteriaType>()
+    {
+        { typeof(IncrementWithDuplicatesCriteria), CriteriaType.Increment },
+        { typeof(DecrementWithDuplicatesCriteria), CriteriaType.Decrement },
+        { typeof(SameColorAnyNumberOrderCriteria), CriteriaType.SameColor },
+        { typeof(DiffierentColorCriteria), CriteriaType.DifferentColor },
+        { typeof(FibbonacciCriteria), CriteriaType.Fibonacci },
+        { typeof(PrimeCriteria), CriteriaType.Prime },
+        { typeof(MersennePrimeCriteria), CriteriaType.MersennePrime },
+        { typeof(PoliteCriteria), CriteriaType.Polite },
+    };
 
     private static CardPileCriteria[] EasyCriteriaList = new CardPileCriteria[]
     {
