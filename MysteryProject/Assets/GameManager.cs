@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game reset");
         TimeRemaining = InitialTime;
-        CardManager.instance.MainDeck = new CardPile(true, true);
+        CardManager.instance.ResetCards();
         CurrentState = GameManagerState.NotStarted;
 
         OnGameReset?.Invoke();

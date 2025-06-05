@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,7 +24,7 @@ public class StackTallyAnimator : MonoBehaviour
     private void Update()
     {
         currentDisplayedScore += (targetScore - currentDisplayedScore) * Time.deltaTime * 2;
-        scoreTally.text = "Final Score: " + Mathf.CeilToInt(currentDisplayedScore).ToString();
+        scoreTally.text = "Final Score: " + Mathf.CeilToInt(currentDisplayedScore).ToString() + "\n Press R to reset";
     }
 
     private void PlayResultAnimation(GameState finalGameState)
@@ -34,6 +35,7 @@ public class StackTallyAnimator : MonoBehaviour
 
     private IEnumerator StartReultAnimation(GameState finalGameState)
     {
+        targetScore = 0;
         foreach (GradedCardPile gradedPile in finalGameState.StashedPiles)
         {
             // Generating an arbitrary pile to test the animator
@@ -51,10 +53,14 @@ public class StackTallyAnimator : MonoBehaviour
         float runningTargetScore = targetScore;
         float stashTargetScore = 0;
 
+        List<GameObject> SpawnedGameObjects = new List<GameObject>();
+
         while (!pile.IsEmpty())
         {
             Card BottomCard = pile.DrawBottomCard();
             GameObject TopCardObject = Instantiate(cardPrefab.gameObject, this.transform.position + Vector3.up * 2, Quaternion.Euler(90, 90, 0));
+            SpawnedGameObjects.Add(TopCardObject);
+
             TopCardObject.GetComponent<CardVisuals>().baseCardInfo = BottomCard;
             TopCardObject.GetComponent<Rigidbody>().linearVelocity = Vector3.down * 3;
 
@@ -99,5 +105,11 @@ public class StackTallyAnimator : MonoBehaviour
         }
         stackTray.transform.rotation = Quaternion.identity;
         stackTray.transform.position = transform.TransformPoint(Vector3.zero);
+
+        // Delete all spawned Objects
+        foreach(GameObject obj in SpawnedGameObjects)
+        {
+            Destroy(obj);
+        }
     }
 }

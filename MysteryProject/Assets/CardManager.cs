@@ -58,8 +58,6 @@ public class CardManager : MonoBehaviour
 
     public void Start()
     {
-        MainDeck = new CardPile(true, true);
-
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new DecrementWithDuplicatesCriteria()));
         UserBins.Add(new Bin(new IncrementWithDuplicatesCriteria()));
@@ -68,11 +66,18 @@ public class CardManager : MonoBehaviour
         {
             OnPileCreated?.Invoke(index, UserBins[index].criteria);
         }
-        
+
+        ResetCards();
+
         comboTrackers.Add(new NumberIncreasingCombo());
         comboTrackers.Add(new NumberDecreasingCombo());
         comboTrackers.Add(new SuitCombo());
         comboTrackers.Add(new SameNumberCombo());
+    }
+    internal void ResetCards()
+    {
+        MainDeck = new CardPile(true, true);
+        StashedPiles = new List<GradedCardPile>();
     }
 
     public void LateUpdate()

@@ -11,7 +11,8 @@ public class GameUI : MonoBehaviour
 
     public void OnGameEnded(GameState finalGameState)
     {
-        timeRemaining.SetText($"Game Over! \nScore: {ScoreManager.ScoreGame(finalGameState)} \nPress R to reset");
+        timeRemaining.SetText($"Game Over!");
+        //timeRemaining.SetText($"Game Over! \nScore: {ScoreManager.ScoreGame(finalGameState)} \nPress R to reset");
     }
 
     void Update()
