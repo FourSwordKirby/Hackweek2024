@@ -23,7 +23,7 @@ public class StackTallyAnimator : MonoBehaviour
     private void Update()
     {
         currentDisplayedScore += (targetScore - currentDisplayedScore) * Time.deltaTime * 2;
-        scoreTally.text = Mathf.CeilToInt(currentDisplayedScore).ToString();
+        scoreTally.text = "Final Score: " + Mathf.CeilToInt(currentDisplayedScore).ToString();
     }
 
     private void PlayResultAnimation(GameState finalGameState)
@@ -54,9 +54,9 @@ public class StackTallyAnimator : MonoBehaviour
         while (!pile.IsEmpty())
         {
             Card BottomCard = pile.DrawBottomCard();
-            GameObject TopCardObject = Instantiate(cardPrefab.gameObject, this.transform.position + Vector3.up * 10, Quaternion.identity);
+            GameObject TopCardObject = Instantiate(cardPrefab.gameObject, this.transform.position + Vector3.up * 2, Quaternion.Euler(90, 90, 0));
             TopCardObject.GetComponent<CardVisuals>().baseCardInfo = BottomCard;
-            TopCardObject.GetComponent<Rigidbody>().linearVelocity = Vector3.down * 10;
+            TopCardObject.GetComponent<Rigidbody>().linearVelocity = Vector3.down * 3;
 
             cardScored = false;
 
@@ -78,14 +78,26 @@ public class StackTallyAnimator : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        float rotationTimer = 0;
-        while (rotationTimer <= 1)
+        float flingTimer = 0;
+        while (flingTimer <= 0.2)
         {
-            stackTray.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0, 0, 360 * rotationTimer));
-            rotationTimer += Time.deltaTime;
+            stackTray.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(60 * flingTimer * (1.0f/0.2f), 0, 0));
+            stackTray.GetComponent<Rigidbody>().MovePosition(transform.TransformPoint(Vector3.up * flingTimer * (1.0f / 0.2f)));
+
+            flingTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        float retractTimer = 0;
+        while (retractTimer <= 1)
+        {
+            stackTray.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(60 * (1-retractTimer), 0, 0));
+            stackTray.GetComponent<Rigidbody>().MovePosition(transform.TransformPoint(Vector3.up * (1-retractTimer)));
+
+            retractTimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         stackTray.transform.rotation = Quaternion.identity;
-
+        stackTray.transform.position = transform.TransformPoint(Vector3.zero);
     }
 }
